@@ -11,12 +11,12 @@ import javax.persistence.Table;
 import lombok.Data;
 
 
-public class MedicalrecordsModel {
+
 	
 	@Data
 	@Entity
 	@Table(name = "medicalrecords")
-	public class Medicalrecords {
+	public class MedicalRecords {
 		
 		public class MedicalrecordsBuilder {
 
@@ -41,5 +41,4 @@ public class MedicalrecordsModel {
 	
 
 	
-}
 }
