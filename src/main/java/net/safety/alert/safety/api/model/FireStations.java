@@ -1,10 +1,16 @@
 package net.safety.alert.safety.api.model;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import lombok.Data;
 
-@Data
-public class FirestastionsModel {
 
-	public class FireStation {
+
+
+	@Data
+	@Entity
+	@Table(name = "firestations")
+	public class FireStations {
 		
 		public String adresse;
 		
@@ -12,4 +18,3 @@ public class FirestastionsModel {
 		
 	}
 	
-}
