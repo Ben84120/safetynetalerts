@@ -1,26 +1,27 @@
 package net.safety.alert.safety.api.controllers;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import net.safety.alert.safety.api.model.PersonModel.Person;
+import net.safety.alerts.safety.api.service.PersonService;
 
 /**
  *
  * A sample greetings controller to return greeting text
  */
 @RestController
-public class GreetingsController {
+public class PersonController {
+	@Autowired
+    private PersonService personService;
+
     /**
-     *
-     * @param name the name to greet
-     * @return greeting text
-     */
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public String greetingText(@PathVariable String name) {
-        return "Hello " + name + "!";
+    * Read - Get all employees
+    * @return - An Iterable object of Employee full filled
+    */
+    @GetMapping("/person")
+    public Iterable<Person> getEmployees() {
+        return personService.getEmployees();
     }
 }
