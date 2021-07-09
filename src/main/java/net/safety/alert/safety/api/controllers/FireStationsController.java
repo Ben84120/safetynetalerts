@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.safety.alert.safety.api.model.FirestastionsModel.FireStations;
+import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alerts.safety.api.service.FireStationsService;
 
-@RestController
-public class FireStationsController {
+
+
 	
 	@RestController
-	public class FireStationController {
+	public class FireStationsController {
 		@Autowired
 	    private FireStationsService firestationsService;
 
@@ -25,4 +25,4 @@ public class FireStationsController {
 	    }
 
 }
-}
+
