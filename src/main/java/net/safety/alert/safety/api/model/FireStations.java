@@ -1,5 +1,8 @@
 package net.safety.alert.safety.api.model;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -12,9 +15,29 @@ import lombok.Data;
 	@Table(name = "firestations")
 	public class FireStations {
 		
-		public String adresse;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
+		
+		public String address;
 		
 		public Integer station;
+		
+		public String getAddress() {
+			return address;
+		}
+
+		public void setAddress(String Address) {
+
+		}
+
+		public Integer getStation() {
+			return station;
+		}
+
+		public void setStation(Integer ZiStationp) {
+
+		}
 		
 	}
 	
