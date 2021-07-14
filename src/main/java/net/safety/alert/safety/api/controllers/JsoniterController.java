@@ -6,27 +6,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.hibernate.mapping.Any;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jsoniter.JsonIterator;
+import com.jsoniter.any.Any;
 
-import net.safety.alert.safety.api.model.FirestastionsModel.FireStation;
-import net.safety.alert.safety.api.model.PersonModel.Person;
-
-//import dataminer.model.FireStation; Pour plus tard
-//import dataminer.model.Person;
+import net.safety.alert.safety.api.model.Person;
 
 @RestController
-public class JsoniterController {
+public class JsoniterController { 
 
 
-    public static void main(String[] args) throws IOException {        
+   /** public static void main(String[] args) throws IOException {        
 
        String filePath = "C:\\Users\\bvach\\git\\safetynetalerts\\resources\\data.json";
 
@@ -36,9 +29,9 @@ public class JsoniterController {
 
     	JsonIterator iter = JsonIterator.parse(bytesFile);
 
-    	com.jsoniter.any.Any any = iter.readAny();
+    	Any any = iter.readAny();
 
-    	com.jsoniter.any.Any personAny = any.get("persons");
+    	Any personAny = any.get("persons");
 
     	List<Person> persons = new ArrayList<>();
 
@@ -63,7 +56,7 @@ public class JsoniterController {
     	persons.forEach(p -> System.out.println(p.firstName.concat(p.lastName).concat(p.address).concat(p.city).concat(p.phone).concat(p.zip)));
     	
     }    	
-    
+   */ 
 }
 
     	

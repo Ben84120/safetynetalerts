@@ -13,8 +13,6 @@ import lombok.Data;
 @Table(name = "medicalrecords")
 public class MedicalRecords {
 
-	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,28 +27,6 @@ public class MedicalRecords {
 
 	public String allergies;
 
-	public Integer getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Integer Birthdate) {
-
-	}
-
-	public String getMedications() {
-		return medications;
-	}
-
-	public void setMedications(String Medications) {
-
-	}
-
-	public String getAllergies() {
-		return allergies;
-	}
-
-	public void setAllergies(String Allergies) {
-
-	}
+	
 
 }

@@ -15,14 +15,6 @@ public class Person {
 
 	public static class PersonBuilder {
 
-		// public PersonBuilder firstName(String firstName) {
-
-		// this.firstName = firstName;
-
-		// return this;
-
-		// }
-
 	}
 
 	@Id
@@ -43,43 +35,5 @@ public class Person {
 
 	public Integer phone;
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String Email) {
-
-	}
-
-	public Integer getZip() {
-		return zip;
-	}
-
-	public void setZip(Integer Zip) {
-
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String City) {
-
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String Address) {
-
-	}
-
-	public Integer getPhone() {
-		return phone;
-	}
-
-	public void setPhone(Integer Phone) {
-
-	}
+	
 }

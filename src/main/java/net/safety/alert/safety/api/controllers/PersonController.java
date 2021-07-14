@@ -65,28 +65,27 @@ public class PersonController {
 			if (email != null) {
 				currentPerson.setEmail(email);
 			}
-			
+
 			Integer zip = person.getZip();
 			if (zip != null) {
 				currentPerson.setZip(zip);
 			}
-			
+
 			String city = person.getCity();
 			if (city != null) {
 				currentPerson.setCity(city);
 			}
-			
+
 			String address = person.getAddress();
 			if (address != null) {
 				currentPerson.setAddress(address);
 			}
-			
+
 			Integer phone = person.getPhone();
 			if (phone != null) {
 				currentPerson.setPhone(phone);
 			}
-			
-			
+
 			personService.savePerson(currentPerson);
 			return currentPerson;
 		} else {
