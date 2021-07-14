@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.FireStations;
-import net.safety.alert.safety.api.model.Person;
 import net.safety.alerts.safety.api.service.FireStationsService;
 
 
@@ -46,6 +45,28 @@ import net.safety.alerts.safety.api.service.FireStationsService;
 	    public Iterable<FireStations> getFirestations() {
 	        return firestationsService.getFireStations();
 	    }
+	    
+	    @PutMapping("/firestations/{id}")
+		public FireStations updateFireStations(@PathVariable("id") final Long id, @RequestBody FireStations firestations) {
+			Optional<FireStations> f = firestationsService.getFireStations(id);
+			if (f.isPresent()) {
+				FireStations currentFireStations = f.get();
+				
+				String address = firestations.getAddress();
+				if (address != null) {
+					currentFireStations.setAddress(address);
+				}
+				
+				Integer station = firestations.getStation();
+				if (station != null) {
+					currentFireStations.setStation(station);
+				}
+				
+				firestationsService.saveFireStations(currentFireStations);
+				return currentFireStations;
+			} else {
+				return null;
+			}}
 	    
 	    /**
 		 * Delete - Delete an employee

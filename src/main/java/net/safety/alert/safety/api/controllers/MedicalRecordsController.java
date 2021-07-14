@@ -1,11 +1,14 @@
 package net.safety.alert.safety.api.controllers;
 
+import java.sql.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.FireStations;
@@ -37,6 +40,33 @@ import net.safety.alerts.safety.api.service.MedicalRecordsService;
 	    public Iterable<MedicalRecords> getMedicalRecords() {
 	        return medicalrecordsService.getMedicalRecords();
 	    }
+	    
+	    @PutMapping("/medicalrecords/{id}")
+		public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id, @RequestBody MedicalRecords medicalrecords) {
+			Optional<MedicalRecords> m = medicalrecordsService.getMedicalRecords(id);
+			if (m.isPresent()) {
+				MedicalRecords currentMedicalRecords = m.get();
+				
+				Integer birthdate = medicalrecords.getBirthdate();
+				if (birthdate != null) {
+					currentMedicalRecords.setBirthdate(birthdate);
+				}
+				
+				String medications = medicalrecords.getMedications();
+				if (medications != null) {
+					currentMedicalRecords.setMedications(medications);
+				}
+				
+				String allergies = medicalrecords.getAllergies();
+				if (allergies != null) {
+					currentMedicalRecords.setAllergies(allergies);
+				}
+				
+				medicalrecordsService.saveMedicalRecords(currentMedicalRecords);
+				return currentMedicalRecords;
+			} else {
+				return null;
+			}}
 	    
 	    /**
 		 * Delete - Delete an employee

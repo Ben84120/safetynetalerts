@@ -49,6 +49,52 @@ public class PersonController {
 	}
 
 	/**
+	 * Update - Update an existing person
+	 * 
+	 * @param id     - The id of the person to update
+	 * @param person - The person object updated
+	 * @return
+	 */
+	@PutMapping("/person/{id}")
+	public Person updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
+		Optional<Person> p = personService.getPerson(id);
+		if (p.isPresent()) {
+			Person currentPerson = p.get();
+
+			String email = person.getEmail();
+			if (email != null) {
+				currentPerson.setEmail(email);
+			}
+			
+			Integer zip = person.getZip();
+			if (zip != null) {
+				currentPerson.setZip(zip);
+			}
+			
+			String city = person.getCity();
+			if (city != null) {
+				currentPerson.setCity(city);
+			}
+			
+			String address = person.getAddress();
+			if (address != null) {
+				currentPerson.setAddress(address);
+			}
+			
+			Integer phone = person.getPhone();
+			if (phone != null) {
+				currentPerson.setPhone(phone);
+			}
+			
+			
+			personService.savePerson(currentPerson);
+			return currentPerson;
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Delete - Delete an employee
 	 * 
 	 * @param id - The id of the employee to delete
