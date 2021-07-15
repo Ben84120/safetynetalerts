@@ -1,4 +1,4 @@
-package net.safety.alerts.safety.api.service;
+package net.safety.alert.safety.api.service;
 
 import java.util.Optional;
 
