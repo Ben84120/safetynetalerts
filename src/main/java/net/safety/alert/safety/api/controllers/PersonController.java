@@ -81,7 +81,7 @@ public class PersonController {
 				currentPerson.setAddress(address);
 			}
 
-			Integer phone = person.getPhone();
+			String phone = person.getPhone();
 			if (phone != null) {
 				currentPerson.setPhone(phone);
 			}
