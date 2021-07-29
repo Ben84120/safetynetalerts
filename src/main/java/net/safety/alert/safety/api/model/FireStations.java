@@ -12,6 +12,8 @@ import lombok.Data;
 @Entity
 @Table(name = "firestations")
 public class FireStations {
+	
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +24,5 @@ public class FireStations {
 	public Integer station;
 
 	
-
+	
 }

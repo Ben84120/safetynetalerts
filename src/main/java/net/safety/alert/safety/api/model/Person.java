@@ -33,7 +33,7 @@ public class Person {
 
 	public String address;
 
-	public Integer phone;
+	public String phone;
 
 	
 }

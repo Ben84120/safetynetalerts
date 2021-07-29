@@ -91,7 +91,7 @@ public class JsonTools  {
 			while (iterator.hasNext()) {
 				JSONObject firestation = iterator.next();
 				FireStations entityFireStations = new FireStations();
-				entityFireStations.setId(Long.parseLong(firestation.get("id").toString()));
+				/*entityFireStations.setId(Long.parseLong(firestation.get("id").toString()));*/
 				entityFireStations.setAddress(firestation.get("address").toString());
 				entityFireStations.setStation(Integer.parseInt(firestation.get("station").toString()));
 				fireStationsService.saveFireStations(entityFireStations);
@@ -130,7 +130,7 @@ public class JsonTools  {
 			while (iterator.hasNext()) {
 				JSONObject medicalrecord = iterator.next();
 				MedicalRecords entityMedicalRecords = new MedicalRecords();
-				entityMedicalRecords.setId(Long.parseLong(medicalrecord.get("id").toString()));
+				/*entityMedicalRecords.setId(Long.parseLong(medicalrecord.get("id").toString()));*/
 				entityMedicalRecords.setFirstName(medicalrecord.get("firstName").toString());
 				entityMedicalRecords.setLastName(medicalrecord.get("lastName").toString());
 				entityMedicalRecords.setBirthdate(medicalrecord.get("birthdate").toString());
