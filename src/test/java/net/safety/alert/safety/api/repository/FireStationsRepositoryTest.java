@@ -1,21 +1,16 @@
 package net.safety.alert.safety.api.repository;
 
-
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public class PersonRepositoryTest {
-	
+public class FireStationsRepositoryTest {
 	@Autowired
-	PersonRepository personRepository;
+	FirestationsRepository fireStationsRepository;
 	@Test
-	public void getPersonTest() {
+	public void getFireStations() {
 		
 	}
 	
-	}
 	
-
-
+}
