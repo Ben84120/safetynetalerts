@@ -60,6 +60,37 @@ public class MedicalRecordsRepositoryTest {
 		
 		}
 	
+	@Test
+	public void deleteMedicalRecordsById() {
+		// GIVEN
+		// WHEN
+		medicalRecordsRepository.deleteById(1L);
+		// THEN
+		Optional<MedicalRecords> medicalRecords = medicalRecordsRepository.findById(1L);
+		assertThat(medicalRecords.isPresent()).isFalse();
+
+	}
+	
+	@Test
+	public void saveMedicalRecordsTest() {
+		// GIVEN
+		// WHEN
+		MedicalRecords saveMedicalRecords = new MedicalRecords(); 
+		saveMedicalRecords.setFirstName("Ben");
+		saveMedicalRecords.setLastName("Vacher");
+		saveMedicalRecords.setBirthdate("03/02/1985");
+		saveMedicalRecords.setMedications("aznol:350mg");
+		saveMedicalRecords.setAllergies("shellfish");
+		medicalRecordsRepository.save(saveMedicalRecords);
+		//THEN
+		MedicalRecords medicalRecords = medicalRecordsRepository.getMedicalRecordsByLastName("Vacher");
+		assertThat(medicalRecords).isNotNull();
+		assertThat(medicalRecords.getLastName()).isEqualTo("Vacher");
+		
+		
+		
+	}
+	
 }
 
 	
