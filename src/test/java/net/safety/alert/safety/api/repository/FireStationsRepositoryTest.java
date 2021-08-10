@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.safety.alert.safety.api.model.FireStations;
-import net.safety.alert.safety.api.model.Person;
 
 @SpringBootTest
 public class FireStationsRepositoryTest {
@@ -51,7 +50,34 @@ public class FireStationsRepositoryTest {
 		
 	}
 	
+	@Test
+	public void deletePersonById() {
+		// GIVEN
+		// WHEN
+		fireStationsRepository.deleteById(1L);
+		// THEN
+		Optional<FireStations> fireStations = fireStationsRepository.findById(1L);
+		assertThat(fireStations.isPresent()).isFalse();
+
+	}
 	
+	@Test
+	public void saveFireStationsTest() {
+		// GIVEN
+		// WHEN
+		FireStations saveFireStations = new FireStations(); 
+		saveFireStations.setStation(Integer.parseInt("5"));		
+		saveFireStations.setAddress("Impasse lis aucipres");
+		fireStationsRepository.save(saveFireStations);
+		//THEN
+		FireStations fireStations = fireStationsRepository.getStationsByNumber("5");
+		assertThat(fireStations).isNotNull();
+		assertThat(fireStations.getStation()).isEqualTo("5");
+		
+		
+		
+	}
+
 	
 	
 	
