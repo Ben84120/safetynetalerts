@@ -30,7 +30,7 @@ public class PersonController {
 
 	@GetMapping("/person/{id}")
 	public Person getPerson(@PathVariable("id") final Long id) {
-		Optional<Person> person = personService.getPerson(id);
+		Optional<Person> person = personService.getPersonById(id);
 		if (person.isPresent()) {
 			return person.get();
 		} else {
@@ -57,7 +57,7 @@ public class PersonController {
 	 */
 	@PutMapping("/person/{id}")
 	public Person updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
-		Optional<Person> p = personService.getPerson(id);
+		Optional<Person> p = personService.getPersonById(id);
 		if (p.isPresent()) {
 			Person currentPerson = p.get();
 

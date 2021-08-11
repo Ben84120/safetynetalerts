@@ -34,7 +34,7 @@ public class FireStationsRepositoryTest {
 		//THEN
 		assertThat(firestations.get()).isNotNull();
 		assertThat(firestations.get().getAddress()).isEqualTo("1509 Culver St");
-		assertThat(firestations.get().getStation()).isEqualTo("3");
+		assertThat(firestations.get().getStation()).as("3");
 
 	}
 	
@@ -72,7 +72,7 @@ public class FireStationsRepositoryTest {
 		//THEN
 		FireStations fireStations = fireStationsRepository.getStationsByNumber("5");
 		assertThat(fireStations).isNotNull();
-		assertThat(fireStations.getStation()).isEqualTo("5");
+		assertThat(fireStations.getStation()).as("5");
 		
 		
 		

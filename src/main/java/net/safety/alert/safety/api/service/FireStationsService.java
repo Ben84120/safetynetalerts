@@ -35,7 +35,7 @@ public class FireStationsService {
 		return savedFireStations;
 	}
 
-	public void deleteFireStations(final Long id) {
+	public void deleteFireStations(Long id) {
 		firestationsRepository.deleteById(id);
 		;
 	}
