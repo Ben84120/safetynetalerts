@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
 
 @SpringBootTest
@@ -87,8 +88,15 @@ public class MedicalRecordsRepositoryTest {
 		assertThat(medicalRecords).isNotNull();
 		assertThat(medicalRecords.getLastName()).isEqualTo("Vacher");
 		
-		
-		
+		}
+	
+	@Test
+	public void getMedicalRecordsByLastName( ) {
+		//GIVEN
+		//WHEN
+		Iterable<MedicalRecords> medicalRecords = medicalRecordsRepository.findAll();
+		//THEN
+		assertThat(medicalRecords).isNotNull();
 	}
 	
 }

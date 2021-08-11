@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.safety.alert.safety.api.model.FireStations;
+import net.safety.alert.safety.api.model.Person;
 
 @SpringBootTest
 public class FireStationsRepositoryTest {
@@ -74,8 +75,15 @@ public class FireStationsRepositoryTest {
 		assertThat(fireStations).isNotNull();
 		assertThat(fireStations.getStation()).as("5");
 		
-		
-		
+		}
+	
+	@Test
+	public void getFireStationsByLastName( ) {
+		//GIVEN
+		//WHEN
+		Iterable<FireStations> fireStations = fireStationsRepository.findAll();
+		//THEN
+		assertThat(fireStations).isNotNull();
 	}
 
 	

@@ -82,4 +82,13 @@ public class PersonRepositoryTest {
 		
 	}
 
+	@Test
+	public void getPersonByLastName( ) {
+		//GIVEN
+		//WHEN
+		Iterable<Person> person = personRepository.findAll();
+		assertThat(person).isNotNull();
+		//assertThat(person.getLastName()).isEqualTo("Boyd");
+		//THEN
+	}
 }
