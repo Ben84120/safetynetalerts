@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.repository.PersonRepository;
 
-@Data
+@Setter
+@Getter
 @Service
 @Transactional
 public class PersonService {

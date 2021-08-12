@@ -55,9 +55,9 @@ public class FireStationsRepositoryTest {
 	public void deletePersonById() {
 		// GIVEN
 		// WHEN
-		fireStationsRepository.deleteById(1L);
+		fireStationsRepository.deleteById(4L);
 		// THEN
-		Optional<FireStations> fireStations = fireStationsRepository.findById(1L);
+		Optional<FireStations> fireStations = fireStationsRepository.findById(4L);
 		assertThat(fireStations.isPresent()).isFalse();
 
 	}
@@ -67,13 +67,13 @@ public class FireStationsRepositoryTest {
 		// GIVEN
 		// WHEN
 		FireStations saveFireStations = new FireStations(); 
-		saveFireStations.setStation(Integer.parseInt("5"));		
+		saveFireStations.setStation(5);		
 		saveFireStations.setAddress("Impasse lis aucipres");
 		fireStationsRepository.save(saveFireStations);
 		//THEN
 		FireStations fireStations = fireStationsRepository.getStationsByNumber("5");
 		assertThat(fireStations).isNotNull();
-		assertThat(fireStations.getStation()).as("5");
+		assertThat(fireStations.getStation()).isEqualTo(5);
 		
 		}
 	

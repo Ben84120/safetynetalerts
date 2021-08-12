@@ -2,6 +2,7 @@ package net.safety.alert.safety.api.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class PersonRepositoryTest {
 		// THEN
 		assertThat(persons).isNotNull();
 		assertThat(persons).hasSizeBetween(1, 25);
-		assertThat(persons).hasSize(23);
+		assertThat(persons).hasSize(24);
 
 	}
 
@@ -36,6 +37,12 @@ public class PersonRepositoryTest {
 		// THEN
 		assertThat(persons.get()).isNotNull();
 		assertThat(persons.get().getFirstName()).isEqualTo("John");
+		assertThat(persons.get().getLastName()).isEqualTo("Boyd");
+		assertThat(persons.get().getAddress()).isEqualTo("1509 Culver St");
+		assertThat(persons.get().getCity()).isEqualTo("Culver");
+		assertThat(persons.get().getZip()).isEqualTo(97451);
+		assertThat(persons.get().getPhone()).isEqualTo("841-874-6512");
+		assertThat(persons.get().getEmail()).isEqualTo("jaboyd@email.com");
 
 	}
 
@@ -53,9 +60,9 @@ public class PersonRepositoryTest {
 	public void deletePersonById() {
 		// GIVEN
 		// WHEN
-		personRepository.deleteById(1L);
+		personRepository.deleteById(5L);
 		// THEN
-		Optional<Person> persons = personRepository.findById(1L);
+		Optional<Person> persons = personRepository.findById(5L);
 		assertThat(persons.isPresent()).isFalse();
 
 	}
@@ -74,9 +81,9 @@ public class PersonRepositoryTest {
 		savePerson.setPhone("841-474-6782");
 		personRepository.save(savePerson);
 		//THEN
-		Person person = personRepository.getPersonByLastName("Vacher");
+		List<Person> person = personRepository.getPersonByLastName("Vacher");
 		assertThat(person).isNotNull();
-		assertThat(person.getLastName()).isEqualTo("Vacher");
+		assertThat(person.get(0).getLastName()).isEqualTo("Vacher");
 		
 		
 		
@@ -86,9 +93,9 @@ public class PersonRepositoryTest {
 	public void getPersonByLastName( ) {
 		//GIVEN
 		//WHEN
-		Iterable<Person> person = personRepository.findAll();
-		assertThat(person).isNotNull();
-		//assertThat(person.getLastName()).isEqualTo("Boyd");
+		List<Person> personByLastName = personRepository.getPersonByLastName("Boyd");
 		//THEN
+		assertThat(personByLastName).isNotNull();
+		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
 	}
 }

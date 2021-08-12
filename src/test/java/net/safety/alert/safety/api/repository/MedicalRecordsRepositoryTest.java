@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
 
 @SpringBootTest
@@ -37,6 +36,10 @@ public class MedicalRecordsRepositoryTest {
 		//THEN
 		assertThat(medicalRecords.get()).isNotNull();
 		assertThat(medicalRecords.get().getFirstName()).isEqualTo("John");
+		assertThat(medicalRecords.get().getLastName()).isEqualTo("Boyd");
+		assertThat(medicalRecords.get().getBirthdate()).isEqualTo("03/06/1984");
+		assertThat(medicalRecords.get().getMedications()).contains("aznol:350mg", "hydrapermazol:100mg");
+		assertThat(medicalRecords.get().getAllergies()).contains("nillacilan");
 		
 	}
 	
@@ -65,9 +68,9 @@ public class MedicalRecordsRepositoryTest {
 	public void deleteMedicalRecordsById() {
 		// GIVEN
 		// WHEN
-		medicalRecordsRepository.deleteById(1L);
+		medicalRecordsRepository.deleteById(5L);
 		// THEN
-		Optional<MedicalRecords> medicalRecords = medicalRecordsRepository.findById(1L);
+		Optional<MedicalRecords> medicalRecords = medicalRecordsRepository.findById(5L);
 		assertThat(medicalRecords.isPresent()).isFalse();
 
 	}
