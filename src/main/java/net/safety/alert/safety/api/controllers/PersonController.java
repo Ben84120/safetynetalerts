@@ -24,7 +24,7 @@ public class PersonController {
 	private PersonService personService;
 
 	@PostMapping("/person")
-	public Person createEmployee(@RequestBody Person person) {
+	public Person createPerson(@RequestBody Person person) {
 		return personService.savePerson(person);
 	}
 

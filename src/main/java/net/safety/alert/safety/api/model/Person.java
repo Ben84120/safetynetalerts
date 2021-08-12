@@ -6,16 +6,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = "person")
 public class Person {
 
-	public static class PersonBuilder {
-
-	}
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

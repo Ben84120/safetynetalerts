@@ -1,5 +1,7 @@
 package net.safety.alert.safety.api.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +13,7 @@ import net.safety.alert.safety.api.model.Person;;
 public interface PersonRepository extends CrudRepository<Person, Long>{
 	
 	@Query(value="SELECT * FROM PERSON P WHERE LAST_NAME = :LastName", nativeQuery = true)
-	Person getPersonByLastName(@Param("LastName") String LastName);
+	List<Person> getPersonByLastName(@Param("LastName") String LastName);
 	
 	
 	
