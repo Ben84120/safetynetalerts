@@ -25,8 +25,8 @@ public class FireStationsController {
 	}
 
 	@GetMapping("/firestations/{id}")
-	public FireStations getFirestations(@PathVariable("id") final Long id) {
-		Optional<FireStations> firestations = firestationsService.getFireStations(id);
+	public FireStations getFirestationsById(@PathVariable("id") final Long id) {
+		Optional<FireStations> firestations = firestationsService.getFireStationsById(id);
 		if (firestations.isPresent()) {
 			return firestations.get();
 		} else {
@@ -46,7 +46,7 @@ public class FireStationsController {
 
 	@PutMapping("/firestations/{id}")
 	public FireStations updateFireStations(@PathVariable("id") final Long id, @RequestBody FireStations firestations) {
-		Optional<FireStations> f = firestationsService.getFireStations(id);
+		Optional<FireStations> f = firestationsService.getFireStationsById(id);
 		if (f.isPresent()) {
 			FireStations currentFireStations = f.get();
 

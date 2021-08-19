@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.safety.alert.safety.api.model.FireStations;
-import net.safety.alert.safety.api.model.Person;
 
 @SpringBootTest
 public class FireStationsRepositoryTest {
@@ -35,7 +34,7 @@ public class FireStationsRepositoryTest {
 		//THEN
 		assertThat(firestations.get()).isNotNull();
 		assertThat(firestations.get().getAddress()).isEqualTo("1509 Culver St");
-		assertThat(firestations.get().getStation()).as("3");
+		assertThat(firestations.get().getStation()).isEqualTo(3);
 
 	}
 	
@@ -52,7 +51,7 @@ public class FireStationsRepositoryTest {
 	}
 	
 	@Test
-	public void deletePersonById() {
+	public void deletePersonByIdTest() {
 		// GIVEN
 		// WHEN
 		fireStationsRepository.deleteById(4L);
@@ -78,7 +77,7 @@ public class FireStationsRepositoryTest {
 		}
 	
 	@Test
-	public void getFireStationsByLastName( ) {
+	public void getFireStationsByLastNameTest( ) {
 		//GIVEN
 		//WHEN
 		Iterable<FireStations> fireStations = fireStationsRepository.findAll();

@@ -44,7 +44,7 @@ public class MedicalRecordsRepositoryTest {
 	}
 	
 	@Test
-	public void getMedicalRecordsByIdAndMedications() {
+	public void getMedicalRecordsByIdAndMedicationsTest() {
 		//GIVEN
 		//WHEN
 		Optional<MedicalRecords> medicalRecords = medicalRecordsRepository.findById(23L);
@@ -65,7 +65,7 @@ public class MedicalRecordsRepositoryTest {
 		}
 	
 	@Test
-	public void deleteMedicalRecordsById() {
+	public void deleteMedicalRecordsByIdTest() {
 		// GIVEN
 		// WHEN
 		medicalRecordsRepository.deleteById(5L);
@@ -94,7 +94,7 @@ public class MedicalRecordsRepositoryTest {
 		}
 	
 	@Test
-	public void getMedicalRecordsByLastName( ) {
+	public void getMedicalRecordsByLastNameTest( ) {
 		//GIVEN
 		//WHEN
 		Iterable<MedicalRecords> medicalRecords = medicalRecordsRepository.findAll();

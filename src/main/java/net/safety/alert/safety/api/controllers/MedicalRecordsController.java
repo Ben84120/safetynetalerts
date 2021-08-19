@@ -19,8 +19,8 @@ public class MedicalRecordsController {
 	private MedicalRecordsService medicalrecordsService;
 
 	@GetMapping("/medicalrecords/{id}")
-	public MedicalRecords getMedicalRecords(@PathVariable("id") final Long id) {
-		Optional<MedicalRecords> medicalrecords = medicalrecordsService.getMedicalRecords(id);
+	public MedicalRecords getMedicalRecordsById(@PathVariable("id") final Long id) {
+		Optional<MedicalRecords> medicalrecords = medicalrecordsService.getMedicalRecordsById(id);
 		if (medicalrecords.isPresent()) {
 			return medicalrecords.get();
 		} else {
@@ -41,7 +41,7 @@ public class MedicalRecordsController {
 	@PutMapping("/medicalrecords/{id}")
 	public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id,
 			@RequestBody MedicalRecords medicalrecords) {
-		Optional<MedicalRecords> m = medicalrecordsService.getMedicalRecords(id);
+		Optional<MedicalRecords> m = medicalrecordsService.getMedicalRecordsById(id);
 		if (m.isPresent()) {
 			MedicalRecords currentMedicalRecords = m.get();
 

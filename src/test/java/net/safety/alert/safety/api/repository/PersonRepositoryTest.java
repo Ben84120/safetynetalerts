@@ -25,7 +25,7 @@ public class PersonRepositoryTest {
 		// THEN
 		assertThat(persons).isNotNull();
 		assertThat(persons).hasSizeBetween(1, 25);
-		assertThat(persons).hasSize(24);
+		
 
 	}
 
@@ -43,6 +43,9 @@ public class PersonRepositoryTest {
 		assertThat(persons.get().getZip()).isEqualTo(97451);
 		assertThat(persons.get().getPhone()).isEqualTo("841-874-6512");
 		assertThat(persons.get().getEmail()).isEqualTo("jaboyd@email.com");
+		List<Person> person = personRepository.getPersonByLastName("Boyd");
+		assertThat(person).isNotNull();
+		assertThat(person.get(0).getLastName()).isEqualTo("Boyd");
 
 	}
 
@@ -57,7 +60,7 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void deletePersonById() {
+	public void deletePersonByIdTest() {
 		// GIVEN
 		// WHEN
 		personRepository.deleteById(5L);
@@ -90,7 +93,7 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void getPersonByLastName( ) {
+	public void getPersonByLastNameTest( ) {
 		//GIVEN
 		//WHEN
 		List<Person> personByLastName = personRepository.getPersonByLastName("Boyd");
