@@ -20,7 +20,7 @@ public class MedicalRecordsService {
 	@Autowired
 	private MedicalrecordsRepository medicalrecordsRepository;
 	
-	public Optional<MedicalRecords> getMedicalRecords(final Long id) {
+	public Optional<MedicalRecords> getMedicalRecordsById(final Long id) {
         return medicalrecordsRepository.findById(id);
     }
 	

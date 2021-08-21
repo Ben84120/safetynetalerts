@@ -74,7 +74,7 @@ public class FireStationsController {
 	 */
 	@DeleteMapping("/firestations/{id}")
 	public void deleteFireStations(@PathVariable("id") final Long id) {
-		firestationsService.deleteFireStations(id);
+		firestationsService.deleteFireStationsById(id);
 	}
 
 }

@@ -20,7 +20,7 @@ public class FireStationsService {
 	@Autowired
 	private FirestationsRepository firestationsRepository;
 
-	public Optional<FireStations> getFireStations(final Long id) {
+	public Optional<FireStations> getFireStationsById(final Long id) {
 		return firestationsRepository.findById(id);
 	}
 
@@ -28,16 +28,12 @@ public class FireStationsService {
 		return firestationsRepository.findAll();
 	}
 
-	public void deleteFireStations(final FireStations station) {
-		firestationsRepository.delete(station);
-	}
-
 	public FireStations saveFireStations(FireStations fireStations) {
 		FireStations savedFireStations = firestationsRepository.save(fireStations);
 		return savedFireStations;
 	}
 
-	public void deleteFireStations(Long id) {
+	public void deleteFireStationsById(final Long id) {
 		firestationsRepository.deleteById(id);
 		;
 	}

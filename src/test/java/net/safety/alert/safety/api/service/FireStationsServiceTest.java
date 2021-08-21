@@ -1,44 +1,56 @@
 package net.safety.alert.safety.api.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Optional;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import lombok.Data;
 import net.safety.alert.safety.api.model.FireStations;
-import net.safety.alert.safety.api.repository.FirestationsRepository;
+import net.safety.alert.safety.api.model.Person;
 
-@Data
-@Service
-@Transactional
+@SpringBootTest
 public class FireStationsServiceTest {
-
 	@Autowired
-	private FirestationsRepository firestationsRepository;
+	FireStationsService fireStationsService;
 
-	public Optional<FireStations> getFireStations(final Long id) {
-		return firestationsRepository.findById(id);
+	@Test
+	public void getFireStationsTest() {
+		Iterable<FireStations> fireStations = fireStationsService.getFireStations();
+		assertThat(fireStations).isNotNull();
+		assertThat(fireStations).hasSizeBetween(10, 30);
+	  
 	}
-
-	public Iterable<FireStations> getFireStations() {
-		return firestationsRepository.findAll();
+	
+	@Test
+	public void getFireStationsByIdTest() {
+		Optional<FireStations> fireStationsById = fireStationsService.getFireStationsById(11L);
+		assertThat(fireStationsById.isPresent()).isTrue();
+		assertThat(fireStationsById.get().getStation()).isEqualTo(1);
 	}
-
-	public void deleteFireStations(final FireStations station) {
-		firestationsRepository.delete(station);
+	
+	@Test
+	public void getFireStationsById_Not_Existing() {
+		Optional<FireStations> fireStationsById = fireStationsService.getFireStationsById(51L);
+		assertThat(fireStationsById.isPresent()).isFalse();
 	}
-
-	public FireStations saveFireStations(FireStations fireStations) {
-		FireStations savedFireStations = firestationsRepository.save(fireStations);
-		return savedFireStations;
+	
+	@Test
+	public void deleteFireStationsByIdTest() {
+		fireStationsService.deleteFireStationsById(6L);
+		Optional<FireStations> fireStationsDeleteById = fireStationsService.getFireStationsById(6L);
+		assertThat(fireStationsDeleteById.isPresent()).isFalse();	
 	}
-
-	public void deleteFireStations(Long id) {
-		firestationsRepository.deleteById(id);
-		;
+	
+	@Test
+	public void saveFireStationsTest() {
+		FireStations saveFireStations = new FireStations();
+		saveFireStations.setAddress("Rue des bouchers");
+		saveFireStations.setStation(6);
+		fireStationsService.saveFireStations(saveFireStations);
 	}
-
-
+	
+	
 }

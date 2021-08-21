@@ -1,41 +1,61 @@
 package net.safety.alert.safety.api.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.when;
+
 import java.util.Optional;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import lombok.Data;
+import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
-import net.safety.alert.safety.api.repository.MedicalrecordsRepository;
 
-@Data
-@Service
-@Transactional
+@SpringBootTest
 public class MedicalRecordsServiceTest {
-	
 	@Autowired
-	private MedicalrecordsRepository medicalrecordsRepository;
+	MedicalRecordsService medicalRecordsService;
+
+	@Test
+	public void getMedicalRecordsTest() {
+		Iterable<MedicalRecords> medicalRecords = medicalRecordsService.getMedicalRecords();
+		assertThat(medicalRecords).isNotNull();
+		assertThat(medicalRecords).hasSizeBetween(15, 30);
+	}
 	
-	public Optional<MedicalRecords> getMedicalRecords(final Long id) {
-        return medicalrecordsRepository.findById(id);
-    }
+	@Test
+	public void getMedicalRecordsByIdTest() {
+		Optional<MedicalRecords> medicalRecordsById = medicalRecordsService.getMedicalRecordsById(7L);
+		assertThat(medicalRecordsById.isPresent()).isTrue();
+		assertThat(medicalRecordsById.get().getLastName()).isEqualTo("Carman");
+	}
 	
-	public Iterable<MedicalRecords> getMedicalRecords() {
-        return medicalrecordsRepository.findAll(); 
-    }
-
-    public void deleteMedicalRecords(final Long id) {
-        medicalrecordsRepository.deleteById(id);
-    }
-
-    public MedicalRecords saveMedicalRecords(MedicalRecords medicalrecords) {
-    	MedicalRecords savedMedicalrecords = medicalrecordsRepository.save(medicalrecords); 
-        return savedMedicalrecords;
-    }
-    
-    
-
+	@Test
+	public void getMedicalRecordsById_Not_Existing() {
+		Optional<MedicalRecords> medicalRecordsById = medicalRecordsService.getMedicalRecordsById(53L);
+		assertThat(medicalRecordsById.isPresent()).isFalse();
+	}
+	
+	@Test
+	public void saveMedicalRecordsTest() {
+		MedicalRecords saveMedicalRecords = new MedicalRecords();
+		saveMedicalRecords.setFirstName("Fabien");
+		saveMedicalRecords.setLastName("Favoino");
+		saveMedicalRecords.setBirthdate("20/02/1986");
+		saveMedicalRecords.setMedications("tetracyclaz:650mg");
+		saveMedicalRecords.setAllergies("peanut");
+		medicalRecordsService.saveMedicalRecords(saveMedicalRecords);
+	}
+	
+	@Test
+	public void deleteMedicalRecordsByIdTest() {
+		medicalRecordsService.deleteMedicalRecords(18L);
+		Optional<MedicalRecords> medicalRecordsDeleteById = medicalRecordsService.getMedicalRecordsById(18L);
+		assertThat(medicalRecordsDeleteById.isPresent()).isFalse();	
+	}
 }
-
