@@ -1,7 +1,6 @@
 package net.safety.alert.safety.api.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -20,6 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.service.PersonService;
+
+
 
 @WebMvcTest(controllers = PersonController.class)
 public class PersonControllerTest {
@@ -91,17 +92,45 @@ public class PersonControllerTest {
         person.setPhone("852-865-4589");
         person.setEmail("d.craig@outlook.fr");
         person.setZip(75016);
+        personServiceMock.savePerson(person);
+        Optional<Person> actual = personServiceMock.getPersonById(85L);
         
         
 
-        when(personServiceMock.getPersonById(85L)).thenReturn(Optional.of(person));
+        when(personServiceMock.getPersonById(85L)).thenReturn(actual);
         
-        Optional<Person> actual = personServiceMock.getPersonById(85L);
-        assertThat(actual.get()).isNotNull();
-		assertTrue(actual.isPresent());
-        assertThat(actual.get().getId()).isEqualTo(85L);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person").
+                contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(builder).
+                andExpect(MockMvcResultMatchers.status().isOk());
 
        
     
     }  
+    
+    @Test
+	public void savePersonControllerTest() throws Exception {
+		Person savePerson = new Person();
+		savePerson.setFirstName("Maximilien");
+		savePerson.setLastName("Ennelin");
+		savePerson.setAddress("Rue des pharmaciens");
+		savePerson.setCity("Vitrolle");
+		savePerson.setZip(13700);
+		savePerson.setPhone("874-895-5465");
+		savePerson.setEmail("m.ennelin@outlook.fr");
+		personServiceMock.savePerson(savePerson);
+		List<Person> personList = new ArrayList<>();
+        personList.add(savePerson);
+		
+		when(personServiceMock.getPerson()).thenReturn(personList);
+
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person").
+                contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(builder).
+                andExpect(MockMvcResultMatchers.status().isOk());
+	}
+    
+    
 }

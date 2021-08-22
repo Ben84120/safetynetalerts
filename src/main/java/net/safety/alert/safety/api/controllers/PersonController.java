@@ -29,7 +29,7 @@ public class PersonController {
 	}
 
 	@GetMapping("/person/{id}")
-	public Person getPerson(@PathVariable("id") final Long id) {
+	public Person getPersonById(@PathVariable("id") final Long id) {
 		Optional<Person> person = personService.getPersonById(id);
 		if (person.isPresent()) {
 			return person.get();

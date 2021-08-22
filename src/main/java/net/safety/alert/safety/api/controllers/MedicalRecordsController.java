@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.MedicalRecords;
+import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.service.MedicalRecordsService;
 
 @RestController
@@ -18,6 +20,11 @@ public class MedicalRecordsController {
 	@Autowired
 	private MedicalRecordsService medicalrecordsService;
 
+	@PostMapping("/medicalrecords")
+	public MedicalRecords createMedicalRecords(@RequestBody MedicalRecords medicalRecords) {
+		return medicalrecordsService.saveMedicalRecords(medicalRecords);
+	}
+	
 	@GetMapping("/medicalrecords/{id}")
 	public MedicalRecords getMedicalRecordsById(@PathVariable("id") final Long id) {
 		Optional<MedicalRecords> medicalrecords = medicalrecordsService.getMedicalRecordsById(id);
@@ -39,8 +46,7 @@ public class MedicalRecordsController {
 	}
 
 	@PutMapping("/medicalrecords/{id}")
-	public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id,
-			@RequestBody MedicalRecords medicalrecords) {
+	public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id, @RequestBody MedicalRecords medicalrecords) {
 		Optional<MedicalRecords> m = medicalrecordsService.getMedicalRecordsById(id);
 		if (m.isPresent()) {
 			MedicalRecords currentMedicalRecords = m.get();
