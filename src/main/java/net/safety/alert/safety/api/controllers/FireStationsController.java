@@ -34,11 +34,7 @@ public class FireStationsController {
 		}
 	}
 
-	/**
-	 * Read - Get all firestations
-	 * 
-	 * @return - An Iterable object of FireStations full filled
-	 */
+	
 	@GetMapping("/firestations")
 	public Iterable<FireStations> getFirestations() {
 		return firestationsService.getFireStations();
@@ -67,11 +63,6 @@ public class FireStationsController {
 		}
 	}
 
-	/**
-	 * Delete - Delete an employee
-	 * 
-	 * @param id - The id of the employee to delete
-	 */
 	@DeleteMapping("/firestations/{id}")
 	public void deleteFireStations(@PathVariable("id") final Long id) {
 		firestationsService.deleteFireStationsById(id);

@@ -25,7 +25,6 @@ public class PersonRepositoryTest {
 		// THEN
 		assertThat(persons).isNotNull();
 		assertThat(persons).hasSizeBetween(1, 25);
-		
 
 	}
 
@@ -74,7 +73,7 @@ public class PersonRepositoryTest {
 	public void savePersonTest() {
 		// GIVEN
 		// WHEN
-		Person savePerson = new Person(); 
+		Person savePerson = new Person();
 		savePerson.setFirstName("Ben");
 		savePerson.setLastName("Vacher");
 		savePerson.setAddress("Impasse lis aucipres");
@@ -83,21 +82,19 @@ public class PersonRepositoryTest {
 		savePerson.setEmail("vacher_b@yahoo.fr");
 		savePerson.setPhone("841-474-6782");
 		personRepository.save(savePerson);
-		//THEN
+		// THEN
 		List<Person> person = personRepository.getPersonByLastName("Vacher");
 		assertThat(person).isNotNull();
 		assertThat(person.get(0).getLastName()).isEqualTo("Vacher");
-		
-		
-		
+
 	}
 
 	@Test
-	public void getPersonByLastNameTest( ) {
-		//GIVEN
-		//WHEN
+	public void getPersonByLastNameTest() {
+		// GIVEN
+		// WHEN
 		List<Person> personByLastName = personRepository.getPersonByLastName("Boyd");
-		//THEN
+		// THEN
 		assertThat(personByLastName).isNotNull();
 		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
 	}

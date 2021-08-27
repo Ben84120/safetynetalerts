@@ -15,53 +15,59 @@ public class PersonServiceTest {
 	@Autowired
 	PersonService personService;
 
-	/*@BeforeEach
-	private void setUpPerTest() {
-		ticket = new Ticket();
-	}*/
-
 	@Test
 	public void getPersonByIdTest() {
-		
+		// GIVEN
+		// WHEN
 		Optional<Person> person = personService.getPersonById(10L);
+		// THEN
 		assertThat(person.isPresent()).isTrue();
 		assertThat(person.get().getFirstName()).isEqualTo("Tony");
 	}
-	
+
 	@Test
 	public void getPersonById_Not_ExistTest() {
-		
+		// GIVEN
+		// WHEN
 		Optional<Person> personById = personService.getPersonById(49L);
+		// THEN
 		assertThat(personById.isPresent()).isFalse();
 	}
-		@Test
-		public void getPersons() {
-			Iterable<Person> persons = personService.getPerson();
-			assertThat(persons).isNotNull();
-			assertThat(persons).hasSizeBetween(20, 30);
-			
-		}
-		
-		@Test
-		public void deletePersonByIdTest() {
-			// GIVEN
-			// WHEN
-			personService.deletePerson(15L);
-			// THEN
-			Optional<Person> persons = personService.getPersonById(15L);
-			assertThat(persons.isPresent()).isFalse();
-		}
-		
-		@Test
-		public void savePersonTest() {
-			Person savePerson = new Person();
-			savePerson.setFirstName("Fabrice");
-			savePerson.setLastName("Messin");
-			savePerson.setAddress("Rue des cordonniers");
-			savePerson.setCity("Vitrolle");
-			savePerson.setZip(13700);
-			savePerson.setPhone("874-895-7812");
-			savePerson.setEmail("f.messin@outlook.fr");
-			personService.savePerson(savePerson);
-		}
+	// GIVEN
+
+	public void getPersons() {
+		// GIVEN
+		// WHEN
+		Iterable<Person> persons = personService.getPerson();
+		// THEN
+		assertThat(persons).isNotNull();
+		assertThat(persons).hasSizeBetween(20, 30);
+
+	}
+
+	@Test
+	public void deletePersonByIdTest() {
+		// GIVEN
+		// WHEN
+		personService.deletePerson(15L);
+		// THEN
+		Optional<Person> persons = personService.getPersonById(15L);
+		assertThat(persons.isPresent()).isFalse();
+	}
+
+	@Test
+	public void savePersonTest() {
+		// GIVEN
+		// WHEN
+		Person savePerson = new Person();
+		savePerson.setFirstName("Fabrice");
+		savePerson.setLastName("Messin");
+		savePerson.setAddress("Rue des cordonniers");
+		savePerson.setCity("Vitrolle");
+		savePerson.setZip(13700);
+		savePerson.setPhone("874-895-7812");
+		savePerson.setEmail("f.messin@outlook.fr");
+		// THEN
+		personService.savePerson(savePerson);
+	}
 }

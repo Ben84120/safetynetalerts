@@ -10,14 +10,9 @@ import org.springframework.stereotype.Repository;
 import net.safety.alert.safety.api.model.Person;;
 
 @Repository
-public interface PersonRepository extends CrudRepository<Person, Long>{
-	
-	@Query(value="SELECT * FROM PERSON P WHERE LAST_NAME = :LastName", nativeQuery = true)
+public interface PersonRepository extends CrudRepository<Person, Long> {
+
+	@Query(value = "SELECT * FROM PERSON P WHERE LAST_NAME = :LastName", nativeQuery = true)
 	List<Person> getPersonByLastName(@Param("LastName") String LastName);
-	
-	
-	
 
 }
-
-

@@ -14,42 +14,41 @@ import net.safety.alert.safety.api.model.FireStations;
 public class FireStationsRepositoryTest {
 	@Autowired
 	FirestationsRepository fireStationsRepository;
+
 	@Test
 	public void getFireStationsTest() {
-		//GIVEN
-		//WHEN
-		Iterable<FireStations> firestations = fireStationsRepository.findAll() ;
-		//THEN
+		// GIVEN
+		// WHEN
+		Iterable<FireStations> firestations = fireStationsRepository.findAll();
+		// THEN
 		assertThat(firestations).isNotNull();
 		assertThat(firestations).hasSizeBetween(1, 20);
 		assertThat(firestations).hasSize(13);
-		
+
 	}
-	
+
 	@Test
 	public void getFireStationsTestByID() {
-		//GIVEN
-		//WHEN
-		Optional<FireStations> firestations = fireStationsRepository.findById(1L) ;
-		//THEN
+		// GIVEN
+		// WHEN
+		Optional<FireStations> firestations = fireStationsRepository.findById(1L);
+		// THEN
 		assertThat(firestations.get()).isNotNull();
 		assertThat(firestations.get().getAddress()).isEqualTo("1509 Culver St");
 		assertThat(firestations.get().getStation()).isEqualTo(3);
 
 	}
-	
+
 	@Test
 	public void getFireStationsById_NotExistingTest() {
-		//GIVEN
-		//WHEN
+		// GIVEN
+		// WHEN
 		Optional<FireStations> firestations = fireStationsRepository.findById(35L);
-		//THEN
+		// THEN
 		assertThat(firestations.isPresent()).isFalse();
-		
-		
-		
+
 	}
-	
+
 	@Test
 	public void deletePersonByIdTest() {
 		// GIVEN
@@ -60,32 +59,29 @@ public class FireStationsRepositoryTest {
 		assertThat(fireStations.isPresent()).isFalse();
 
 	}
-	
+
 	@Test
 	public void saveFireStationsTest() {
 		// GIVEN
 		// WHEN
-		FireStations saveFireStations = new FireStations(); 
-		saveFireStations.setStation(5);		
+		FireStations saveFireStations = new FireStations();
+		saveFireStations.setStation(5);
 		saveFireStations.setAddress("Impasse lis aucipres");
 		fireStationsRepository.save(saveFireStations);
-		//THEN
+		// THEN
 		FireStations fireStations = fireStationsRepository.getStationsByNumber("5");
 		assertThat(fireStations).isNotNull();
 		assertThat(fireStations.getStation()).isEqualTo(5);
-		
-		}
-	
+
+	}
+
 	@Test
-	public void getFireStationsByLastNameTest( ) {
-		//GIVEN
-		//WHEN
+	public void getFireStationsByLastNameTest() {
+		// GIVEN
+		// WHEN
 		Iterable<FireStations> fireStations = fireStationsRepository.findAll();
-		//THEN
+		// THEN
 		assertThat(fireStations).isNotNull();
 	}
 
-	
-	
-	
 }

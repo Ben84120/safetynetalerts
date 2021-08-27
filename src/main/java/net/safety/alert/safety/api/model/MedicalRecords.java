@@ -29,6 +29,4 @@ public class MedicalRecords {
 
 	public String allergies;
 
-	
-
 }

@@ -24,7 +24,7 @@ public class MedicalRecordsController {
 	public MedicalRecords createMedicalRecords(@RequestBody MedicalRecords medicalRecords) {
 		return medicalrecordsService.saveMedicalRecords(medicalRecords);
 	}
-	
+
 	@GetMapping("/medicalrecords/{id}")
 	public MedicalRecords getMedicalRecordsById(@PathVariable("id") final Long id) {
 		Optional<MedicalRecords> medicalrecords = medicalrecordsService.getMedicalRecordsById(id);
@@ -35,18 +35,14 @@ public class MedicalRecordsController {
 		}
 	}
 
-	/**
-	 * Read - Get all employees
-	 * 
-	 * @return - An Iterable object of Employee full filled
-	 */
 	@GetMapping("/medicalrecords")
 	public Iterable<MedicalRecords> getMedicalRecords() {
 		return medicalrecordsService.getMedicalRecords();
 	}
 
 	@PutMapping("/medicalrecords/{id}")
-	public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id, @RequestBody MedicalRecords medicalrecords) {
+	public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id,
+			@RequestBody MedicalRecords medicalrecords) {
 		Optional<MedicalRecords> m = medicalrecordsService.getMedicalRecordsById(id);
 		if (m.isPresent()) {
 			MedicalRecords currentMedicalRecords = m.get();
@@ -73,11 +69,6 @@ public class MedicalRecordsController {
 		}
 	}
 
-	/**
-	 * Delete - Delete an employee
-	 * 
-	 * @param id - The id of the employee to delete
-	 */
 	@DeleteMapping("/medicalrecords/{id}")
 	public void deleteMedicalRecords(@PathVariable("id") final Long id) {
 		medicalrecordsService.deleteMedicalRecords(id);

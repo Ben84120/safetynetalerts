@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.service.PersonService;
 
-/**
- *
- * A sample greetings controller to return greeting text
- */
 @RestController
 public class PersonController {
 	@Autowired
@@ -38,23 +34,11 @@ public class PersonController {
 		}
 	}
 
-	/**
-	 * Read - Get all employees
-	 * 
-	 * @return - An Iterable object of Employee full filled
-	 */
 	@GetMapping("/person")
 	public Iterable<Person> getPerson() {
 		return personService.getPerson();
 	}
 
-	/**
-	 * Update - Update an existing person
-	 * 
-	 * @param id     - The id of the person to update
-	 * @param person - The person object updated
-	 * @return
-	 */
 	@PutMapping("/person/{id}")
 	public Person updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
 		Optional<Person> p = personService.getPersonById(id);
@@ -93,11 +77,6 @@ public class PersonController {
 		}
 	}
 
-	/**
-	 * Delete - Delete an employee
-	 * 
-	 * @param id - The id of the employee to delete
-	 */
 	@DeleteMapping("/person/{id}")
 	public void deletePerson(@PathVariable("id") final Long id) {
 		personService.deletePerson(id);

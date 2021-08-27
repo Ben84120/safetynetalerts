@@ -15,9 +15,6 @@ import lombok.Setter;
 @Table(name = "person")
 public class Person {
 
-	
-	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,5 +33,4 @@ public class Person {
 
 	public String phone;
 
-	
 }

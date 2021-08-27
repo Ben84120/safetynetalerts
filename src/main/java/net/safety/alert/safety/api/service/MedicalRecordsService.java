@@ -16,28 +16,25 @@ import net.safety.alert.safety.api.repository.MedicalrecordsRepository;
 @Service
 @Transactional
 public class MedicalRecordsService {
-	
+
 	@Autowired
 	private MedicalrecordsRepository medicalrecordsRepository;
-	
+
 	public Optional<MedicalRecords> getMedicalRecordsById(final Long id) {
-        return medicalrecordsRepository.findById(id);
-    }
-	
+		return medicalrecordsRepository.findById(id);
+	}
+
 	public Iterable<MedicalRecords> getMedicalRecords() {
-        return medicalrecordsRepository.findAll(); 
-    }
+		return medicalrecordsRepository.findAll();
+	}
 
-    public void deleteMedicalRecords(final Long id) {
-        medicalrecordsRepository.deleteById(id);
-    }
+	public void deleteMedicalRecords(final Long id) {
+		medicalrecordsRepository.deleteById(id);
+	}
 
-    public MedicalRecords saveMedicalRecords(MedicalRecords medicalrecords) {
-    	MedicalRecords savedMedicalrecords = medicalrecordsRepository.save(medicalrecords); 
-        return savedMedicalrecords;
-    }
-    
-    
+	public MedicalRecords saveMedicalRecords(MedicalRecords medicalrecords) {
+		MedicalRecords savedMedicalrecords = medicalrecordsRepository.save(medicalrecords);
+		return savedMedicalrecords;
+	}
 
 }
-
