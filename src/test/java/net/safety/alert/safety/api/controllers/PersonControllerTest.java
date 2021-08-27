@@ -1,6 +1,7 @@
 package net.safety.alert.safety.api.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.service.PersonService;
 
@@ -32,7 +36,7 @@ public class PersonControllerTest {
     private PersonService personServiceMock;
 
     @Test
-    public void getPersonsTest() throws Exception {
+    public void getPerson_Test() throws Exception {
 
         Person person = new Person();
         person.setLastName("Evelyne");
@@ -55,7 +59,7 @@ public class PersonControllerTest {
     }
     
     @Test
-    public void createPersonsTest() throws Exception {
+    public void createPersons_Test() throws Exception {
 
         Person person = new Person();
         person.setLastName("Paul");
@@ -72,65 +76,128 @@ public class PersonControllerTest {
 		
 
         when(personServiceMock.savePerson(person)).thenReturn(person);
-
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person").
-                contentType(MediaType.APPLICATION_JSON);
+        
+        ObjectMapper mapper = new ObjectMapper();
+    	String writeValueAsString = mapper.writeValueAsString(person);
+        
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/person").
+                contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
         mockMvc.perform(builder).
                 andExpect(MockMvcResultMatchers.status().isOk());
     }
     
     @Test
-    public void getPersonsByIDTest() throws Exception {
-
-        Person person = new Person();
-        person.setId(85L);
-        person.setLastName("Craig");
-        person.setFirstName("Daniel");
-        person.setAddress("Avenue du bout du monde");
-        person.setCity("Paris");
-        person.setPhone("852-865-4589");
-        person.setEmail("d.craig@outlook.fr");
-        person.setZip(75016);
-        personServiceMock.savePerson(person);
-        Optional<Person> actual = personServiceMock.getPersonById(85L);
-        
-        
-
-        when(personServiceMock.getPersonById(85L)).thenReturn(actual);
-        
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person").
-                contentType(MediaType.APPLICATION_JSON);
+    public void updatePerson_Test() throws Exception {
+    
+    	Person updatePerson = new Person();
+    	updatePerson.setAddress("Boulevard du bout de la table");
+    	updatePerson.setFirstName("Benjamin");
+    	updatePerson.setLastName("Orqui");
+    	updatePerson.setAddress("Rue des primeurs fous");
+    	updatePerson.setCity("Vitrolles");
+    	updatePerson.setZip(13700);
+    	updatePerson.setPhone("874-895-5647");
+    	updatePerson.setEmail("b.orqui@next.fr");
+    	when(personServiceMock.getPersonById(1L)).thenReturn(Optional.of(updatePerson));
+    	when(personServiceMock.savePerson(updatePerson)).thenReturn(updatePerson);
+    	
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	String writeValueAsString = mapper.writeValueAsString(updatePerson);
+    	
+    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/person/1").
+                contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
         mockMvc.perform(builder).
                 andExpect(MockMvcResultMatchers.status().isOk());
-
-       
-    
-    }  
+    }
     
     @Test
-	public void savePersonControllerTest() throws Exception {
-		Person savePerson = new Person();
-		savePerson.setFirstName("Maximilien");
-		savePerson.setLastName("Ennelin");
-		savePerson.setAddress("Rue des pharmaciens");
-		savePerson.setCity("Vitrolle");
-		savePerson.setZip(13700);
-		savePerson.setPhone("874-895-5465");
-		savePerson.setEmail("m.ennelin@outlook.fr");
-		personServiceMock.savePerson(savePerson);
-		List<Person> personList = new ArrayList<>();
-        personList.add(savePerson);
-		
-		when(personServiceMock.getPerson()).thenReturn(personList);
+    public void updatePerson_Test2() throws Exception {
+    
+    	Person updatePerson = new Person();
+    	updatePerson.setAddress("Boulevard du bout de la table");
+    	updatePerson.setFirstName("Benjamin");
+    	updatePerson.setLastName("Orqui");
+    	updatePerson.setAddress("Rue des primeurs fous");
+    	updatePerson.setCity("Vitrolles");
+    	updatePerson.setZip(13700);
+    	updatePerson.setPhone("874-895-5647");
+    	updatePerson.setEmail("b.orqui@next.fr");
+    	when(personServiceMock.getPersonById(1L)).thenReturn(Optional.empty());
+    	when(personServiceMock.savePerson(updatePerson)).thenReturn(updatePerson);
+    	
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	String writeValueAsString = mapper.writeValueAsString(updatePerson);
+    	
+    	MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/person/1").
+                contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person").
+        mockMvc.perform(builder).
+                andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    
+    @Test
+    public void getPersonById_Test() throws Exception {
+    	
+      
+    	Person person = new Person();
+    	person.setAddress("Boulevard du bout du monde");
+    	person.setFirstName("Benjamin");
+    	person.setLastName("Fabre");
+    	person.setAddress("Rue des primeurs");
+    	person.setCity("Vitrolles");
+    	person.setZip(13700);
+    	person.setPhone("874-895-3125");
+    	person.setEmail("b.fabre@outlook.fr");
+        
+        
+
+        when(personServiceMock.getPersonById(43L)).thenReturn(Optional.of(person));
+        
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person/43").
                 contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(builder).
                 andExpect(MockMvcResultMatchers.status().isOk());
-	}
+    }
+
+         
     
-    
+    @Test
+	public void deletePerson_Test() throws Exception {
+		Person deletePerson = new Person();
+		deletePerson.setId(27L);
+		deletePerson.setFirstName("Maximilien");
+		deletePerson.setLastName("Ennelin");
+		deletePerson.setAddress("Rue des pharmaciens");
+		deletePerson.setCity("Vitrolle");
+		deletePerson.setZip(13700);
+		deletePerson.setPhone("874-895-5465");
+		deletePerson.setEmail("m.ennelin@outlook.fr");
+		personServiceMock.deletePerson(27L);
+		
+		List<Person> personSave = new ArrayList<>();
+		assertThat(personSave).isNotNull();
+		
+		when(personServiceMock.getPersonById(27L)).thenReturn(Optional.of(deletePerson));
+
+		
+        
+        ObjectMapper mapper = new ObjectMapper();
+    	String writeValueAsString = mapper.writeValueAsString(deletePerson);
+        
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.delete("/person/27").
+                contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
+
+        mockMvc.perform(builder).
+                andExpect(MockMvcResultMatchers.status().isOk());
+    }
+	
 }
+    
+    
+    
+
