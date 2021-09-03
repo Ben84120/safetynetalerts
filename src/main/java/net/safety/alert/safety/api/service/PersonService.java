@@ -1,5 +1,6 @@
 package net.safety.alert.safety.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import net.safety.alert.safety.api.model.Person;
+import net.safety.alert.safety.api.model.PersonInformations;
 import net.safety.alert.safety.api.repository.PersonRepository;
 
 @Setter
@@ -35,6 +37,10 @@ public class PersonService {
 	public Person savePerson(Person person) {
 		Person savedPerson = personRepository.save(person);
 		return savedPerson;
+	}
+	
+	public List<PersonInformations> getPersonStationCover(final Integer stationNumber) {
+		return personRepository.getPersonInformations(stationNumber);
 	}
 
 }
