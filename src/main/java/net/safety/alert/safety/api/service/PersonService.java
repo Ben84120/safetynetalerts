@@ -1,6 +1,6 @@
 package net.safety.alert.safety.api.service;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -16,13 +16,17 @@ import org.springframework.util.CollectionUtils;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
+import net.safety.alert.safety.api.repository.FirestationsRepository;
+import net.safety.alert.safety.api.repository.MedicalrecordsRepository;
 import net.safety.alert.safety.api.repository.PersonRepository;
 import net.safety.alert.safety.api.service.error.MissingParamException;
 
+@Slf4j
 @Setter
 @Getter
 @Service
@@ -31,7 +35,8 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
-	
+	private MedicalrecordsRepository medicalrecordsRepository;
+	private FirestationsRepository firestationsRepository;
 
 	public Optional<Person> getPersonById(final Long id) {
 		return personRepository.findById(id);
