@@ -12,5 +12,7 @@ public interface MedicalrecordsRepository extends CrudRepository<MedicalRecords,
 
 	@Query(value = "SELECT * FROM MEDICALRECORDS M WHERE LAST_NAME = :LastName", nativeQuery = true)
 	MedicalRecords getMedicalRecordsByLastName(@Param("LastName") String LastName);
+	
+	MedicalRecords findByFirstNameAndLastName(String firstName, String LastName);
 
 }

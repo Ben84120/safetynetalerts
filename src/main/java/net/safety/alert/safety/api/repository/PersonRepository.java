@@ -16,8 +16,9 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 	@Query(value = "SELECT * FROM PERSON P WHERE LAST_NAME = :LastName", nativeQuery = true)
 	List<Person> getPersonByLastName(@Param("LastName") String lastName);
 
-	@Query(value = "SELECT P.LAST_NAME nom, P.FIRST_NAME prenom, P.ADDRESS adresse, P.PHONE numeroTel FROM FIRESTATIONS FS, PERSON P WHERE  FS.ADDRESS=P.ADDRESS AND FS.STATION= :stationNumber",  nativeQuery = true)
+	@Query(value = "SELECT P.LAST_NAME nom, P.FIRST_NAME prenom, P.ADDRESS adresse, P.PHONE numeroTel FROM FIRESTATIONS FS, PERSON P WHERE  FS.ADDRESS=P.ADDRESS AND FS.STATION= :stationNumber", nativeQuery = true)
 	List<PersonInformations> getPersonInformations(@Param("stationNumber") Integer stationNumber);
-	
-}
 
+	List<Person> findByAddress(String address);
+
+}

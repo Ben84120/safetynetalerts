@@ -89,10 +89,10 @@ public class PersonController {
 	
 	@GetMapping("/firestation")
 	public PersonStationCover getPersonStationCover(@RequestParam("stationNumber") final Integer stationNumber )  {
-	List<PersonInformations> personStationCover = new ArrayList<>();
-	personStationCover.addAll(personStationCover);
-	personService.getPersonStationCover(stationNumber);
-		return new PersonStationCover();
+
+		return personService.getPersonStationCover(stationNumber);
+
+		}
 	}
 	
-}
+
