@@ -35,7 +35,9 @@ public class PersonService {
 
 	@Autowired
 	private PersonRepository personRepository;
+	@Autowired
 	private MedicalrecordsRepository medicalrecordsRepository;
+	@Autowired
 	private FirestationsRepository firestationsRepository;
 
 	public Optional<Person> getPersonById(final Long id) {
@@ -81,6 +83,13 @@ public class PersonService {
         });
         personStationCover.setPersonsList(personsCovered);
         return personStationCover;
+	}
+	
+	public Person getPersonEmail_By_City(final String city) {
+		Person personEmail = new Person();
+		List<Person> personList = new ArrayList<>();
+		personList.add(personEmail);
+		return personEmail;
 	}
 
 }

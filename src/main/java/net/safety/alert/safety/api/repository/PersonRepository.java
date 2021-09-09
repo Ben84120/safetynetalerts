@@ -21,11 +21,13 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 
 	List<Person> findByAddress(String address);
 	
-	@Query(value = "SELECT FS.STATION, P.PHONE FROM FIRESTATIONS FS, PERSON P WHERE FS.ADDRESS=P.ADDRESS AND STATION= :StationNumber", nativeQuery = true)
-	List<PersonInformations> getPersonPhone_By_StationNumber(@Param("stationNumber") Integer stationNumber);
+	/*@Query(value = "SELECT FS.STATION, P.PHONE FROM FIRESTATIONS FS, PERSON P WHERE FS.ADDRESS=P.ADDRESS AND STATION= :StationNumber", nativeQuery = true)
+	List<PersonInformations> getPersonPhone_By_StationNumber(@Param("stationNumber") Integer stationNumber);*/
 	
 	@Query(value = "SELECT P.EMAIL, P.CITY FROM PERSON P WHERE CITY = :City", nativeQuery = true)
-	List<PersonInformations> getPersonEmail_By_City(@Param("city") String city);
+	Person getPersonEmail_By_City(@Param("city") String city);
+	
+	List<Person> findByCity(String city);
 	
 	
 
