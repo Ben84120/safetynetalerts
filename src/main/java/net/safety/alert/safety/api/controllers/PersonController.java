@@ -1,5 +1,6 @@
 package net.safety.alert.safety.api.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,21 @@ public class PersonController {
 		return personService.getPersonStationCover(stationNumber);
 
 		}
-	@GetMapping("/person/email")
-	public Person getPersonEmail_By_City(@RequestParam("city") final String city) {
-		return personService.getPersonEmail_By_City(city);
+	@GetMapping("/communityEmail")
+	public List<String> getPersonEmailByCity(@RequestParam("city") final String city) {
+		return personService.getPersonEmailByCity(city);
+		}
+	
+	@GetMapping("/phoneAlert")
+	public List<String> getPersonPhoneCoverByStation(@RequestParam("firestation") final Integer stationNumber){		
+		return personService.getPersonPhoneCoverByStation(stationNumber);
+			}
+	
+	@GetMapping("/fire")
+	public PersonStationCover getPersonsInformationsAndMedicalRecordsByStation(@RequestParam("stationNumber")final Integer stationNumber){
+		return personService.getPersonsInformationsAndMedicalRecordsByStation(stationNumber);
 	}
+	
 	}
 	
 

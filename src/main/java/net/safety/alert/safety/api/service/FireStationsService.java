@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.repository.FirestationsRepository;
+import net.safety.alert.safety.api.repository.PersonRepository;
 
 @Setter
 @Getter
@@ -19,6 +20,8 @@ public class FireStationsService {
 
 	@Autowired
 	private FirestationsRepository firestationsRepository;
+	@Autowired
+	private PersonRepository personRepository;
 
 	public Optional<FireStations> getFireStationsById(final Long id) {
 		return firestationsRepository.findById(id);
@@ -35,7 +38,25 @@ public class FireStationsService {
 
 	public void deleteFireStationsById(final Long id) {
 		firestationsRepository.deleteById(id);
-		;
+		
 	}
 
-}
+	/*public FireStations postMappingStation(final Integer stationNumber) {
+		FireStations mappingStation = new FireStations();
+		List<Person> mappingStation = new ArrayList();
+		List<FireStations> firestations = new ArrayList<>();
+		
+        
+		return mappingStation;
+	}
+	
+	public FireStations putFireStationNumber(final Integer stationNumber) {
+		FireStations fireStationNumber = new FireStations();
+		List<Person> personStationCover = new ArrayList<>();
+		List<FireStations> 
+		
+		
+		return null;*/
+	}
+	
+

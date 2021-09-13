@@ -64,7 +64,8 @@ public class PersonService {
         List<Person> personsCovered = new ArrayList<>();
         List<FireStations> firestations = firestationsRepository.findByStation(stationNumber);
         if (CollectionUtils.isEmpty(firestations)) {
-            throw new MissingParamException("Aucune station n'existe avec ce numéro "+stationNumber);
+           log.error("Aucune station n'existe avec ce numéro"+stationNumber);
+        	throw new MissingParamException("Aucune station n'existe avec ce numéro "+stationNumber);
         }
         firestations.forEach(firestation -> {
             List<Person> personsByAddress = personRepository.findByAddress(firestation.getAddress());
@@ -85,11 +86,49 @@ public class PersonService {
         return personStationCover;
 	}
 	
-	public Person getPersonEmail_By_City(final String city) {
-		Person personEmail = new Person();
-		List<Person> personList = new ArrayList<>();
-		personList.add(personEmail);
-		return personEmail;
+	public List<String> getPersonEmailByCity(final String city) {
+		List<Person> persons = personRepository.findByCity(city);
+		List<String> emails = new ArrayList<>();
+		for(Person person:persons) {
+			emails.add(person.getEmail());
+		}
+		
+		return emails;
 	}
+	
+	public List<String> getPersonPhoneCoverByStation(final Integer stationNumber) {
+		List<String> phones = personRepository.getPhoneByStation(stationNumber);
+		
+		return phones;
+	}
+	
+	public PersonStationCover getPersonsInformationsAndMedicalRecordsByStation(final Integer stationNumber) {
+		log.info("Service Firestation : station: "+stationNumber+" getting persons covered.");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        PersonStationCover personStationCover = new PersonStationCover();
+        List<Person> personsCovered = new ArrayList<>();
+        List<FireStations> firestations = firestationsRepository.findByStation(stationNumber);
+        if (CollectionUtils.isEmpty(firestations)) {
+           log.error("Aucune station n'existe avec ce numéro"+stationNumber);
+        	throw new MissingParamException("Aucune station n'existe avec ce numéro "+stationNumber);
+        }
+        firestations.forEach(firestation -> {
+            List<Person> personsByAddress = personRepository.findByAddress(firestation.getAddress());
+            personsByAddress.forEach(person -> {
+                personsCovered.add(person);
+                LocalDate dateNow = LocalDate.now();
+                MedicalRecords medicalRecord = medicalrecordsRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
+                if (Period.between(birthDate, dateNow).getYears() <= 18) {
+                    personStationCover.setNombreMineurs(personStationCover.getNombreMineurs()+1);
+                }
+            });
+        });
+        personStationCover.setPersonsList(personsCovered);
+        return personStationCover;
+        
+	
 
 }
+}
+

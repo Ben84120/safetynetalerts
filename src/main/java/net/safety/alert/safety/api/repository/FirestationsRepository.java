@@ -17,10 +17,7 @@ public interface FirestationsRepository extends CrudRepository<FireStations, Lon
 
 	List<FireStations> findByStation(int number);
 	
-	@Query(value = "UPDATE FIRESTATION SET STATION= :stationNumber WHERE ADDRESS= :address", nativeQuery = true)
-	FireStations putFireStationNumber(@Param("stationNumber") Integer stationNumber);
-	
-	@Query(value = "DELETE FROM FIRESTATIONS WHERE STATION= :Station AND ADDRESS= :Address", nativeQuery = true)
-	FireStations dleteMappingStation(@Param("stationNumber") Integer stationNumber);
+	/*@Query(value = "UPDATE FIRESTATION SET STATION= :stationNumber WHERE ADDRESS= :address", nativeQuery = true)
+	FireStations putFireStationNumber(@Param("stationNumber") Integer stationNumber);*/
 
 } 

@@ -67,5 +67,6 @@ public class FireStationsController {
 	public void deleteFireStations(@PathVariable("id") final Long id) {
 		firestationsService.deleteFireStationsById(id);
 	}
+	
 
 }
