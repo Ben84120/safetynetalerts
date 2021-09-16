@@ -19,9 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.Person;
-import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.service.PersonService;
 
 @WebMvcTest(controllers = PersonController.class)
@@ -49,7 +47,8 @@ public class PersonControllerTest {
 		personList.add(person);
 
 		when(personServiceMock.getPerson()).thenReturn(personList);
-
+		
+		
 		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person")
 				.contentType(MediaType.APPLICATION_JSON);
 
@@ -194,6 +193,21 @@ public class PersonControllerTest {
 	}*/
 
 	
-	
+	@Test
+	public void getPerson_Not_ExistTest() throws Exception {
+		// GIVEN
+		// WHEN
+		Person person = new Person();
+		person.setFirstName(null);
+		person.setLastName(null);
+		// THEN
+		
+		when(personServiceMock.getPerson()).thenReturn(null);
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person")
+				.contentType(MediaType.APPLICATION_JSON);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+	}
 	
 }

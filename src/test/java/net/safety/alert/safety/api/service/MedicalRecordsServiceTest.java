@@ -2,6 +2,7 @@ package net.safety.alert.safety.api.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.safety.alert.safety.api.model.MedicalRecords;
+import net.safety.alert.safety.api.model.Person;
 
 @SpringBootTest
 public class MedicalRecordsServiceTest {
@@ -66,5 +68,16 @@ public class MedicalRecordsServiceTest {
 		Optional<MedicalRecords> medicalRecordsDeleteById = medicalRecordsService.getMedicalRecordsById(18L);
 		// THEN
 		assertThat(medicalRecordsDeleteById.isPresent()).isFalse();
+	}
+	
+	@Test
+	public void getMedicalRecordByLastName_Test() {
+		// GIVEN
+		// WHEN
+		List<MedicalRecords> medicalRecordLastName = medicalRecordsService.getPersonByLastName("Boyd");
+		assertThat(medicalRecordLastName).isNotNull();
+		assertThat(medicalRecordLastName.get(0).getLastName()).isEqualTo("Boyd");
+		// THEN
+		
 	}
 }

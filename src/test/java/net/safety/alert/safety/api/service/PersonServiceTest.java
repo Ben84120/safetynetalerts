@@ -106,7 +106,10 @@ public class PersonServiceTest {
 		assertThat(personByLastName).isNotNull();
 		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
 		// THEN
-		;
+		
 	}
+	
+	
+	
 	
 }
