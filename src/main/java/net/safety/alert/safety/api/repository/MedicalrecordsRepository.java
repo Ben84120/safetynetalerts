@@ -1,5 +1,7 @@
 package net.safety.alert.safety.api.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -11,9 +13,9 @@ import net.safety.alert.safety.api.model.MedicalRecords;
 public interface MedicalrecordsRepository extends CrudRepository<MedicalRecords, Long> {
 
 	@Query(value = "SELECT * FROM MEDICALRECORDS M WHERE LAST_NAME = :LastName", nativeQuery = true)
-	MedicalRecords getMedicalRecordsByLastName(@Param("LastName") String LastName);
+	List<MedicalRecords> getMedicalRecordsByLastName(@Param("LastName") String lastName);
 	
-	MedicalRecords findByFirstNameAndLastName(String firstName, String LastName);
+	MedicalRecords findByFirstNameAndLastName(String firstName, String lastName);
 	
 	
 }

@@ -2,6 +2,7 @@ package net.safety.alert.safety.api.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ public class MedicalRecordsRepositoryTest {
 	MedicalrecordsRepository medicalRecordsRepository;
 
 	@Test
-	public void getMedicalRecordsTest() {
+	public void getMedicalRecords_Test() {
 
 		// GIVEN
 		// WHEN
@@ -44,7 +45,7 @@ public class MedicalRecordsRepositoryTest {
 	}
 
 	@Test
-	public void getMedicalRecordsByIdAndMedicationsTest() {
+	public void getMedicalRecordsByIdAndMedications_Test() {
 		// GIVEN
 		// WHEN
 		Optional<MedicalRecords> medicalRecords = medicalRecordsRepository.findById(23L);
@@ -55,7 +56,7 @@ public class MedicalRecordsRepositoryTest {
 	}
 
 	@Test
-	public void getMedicalRecordsById_NotExistingTest() {
+	public void getMedicalRecordsById_NotExisting_Test() {
 		// GIVEN
 		// WHEN
 		Optional<MedicalRecords> medicalRecords = medicalRecordsRepository.findById(75L);
@@ -65,7 +66,7 @@ public class MedicalRecordsRepositoryTest {
 	}
 
 	@Test
-	public void deleteMedicalRecordsByIdTest() {
+	public void deleteMedicalRecordsById_Test() {
 		// GIVEN
 		// WHEN
 		medicalRecordsRepository.deleteById(5L);
@@ -76,7 +77,7 @@ public class MedicalRecordsRepositoryTest {
 	}
 
 	@Test
-	public void saveMedicalRecordsTest() {
+	public void saveMedicalRecords_Test() {
 		// GIVEN
 		// WHEN
 		MedicalRecords saveMedicalRecords = new MedicalRecords();
@@ -87,19 +88,29 @@ public class MedicalRecordsRepositoryTest {
 		saveMedicalRecords.setAllergies("shellfish");
 		medicalRecordsRepository.save(saveMedicalRecords);
 		// THEN
-		MedicalRecords medicalRecords = medicalRecordsRepository.getMedicalRecordsByLastName("Vacher");
-		assertThat(medicalRecords).isNotNull();
-		assertThat(medicalRecords.getLastName()).isEqualTo("Vacher");
+		List<MedicalRecords> medicalRecordsByLastName = medicalRecordsRepository.getMedicalRecordsByLastName("Vacher");
+		assertThat(medicalRecordsByLastName).isNotNull();
+		assertThat(medicalRecordsByLastName.get(0).getLastName()).isEqualTo("Vacher");
 
 	}
 
 	@Test
-	public void getMedicalRecordsByLastNameTest() {
+	public void getMedicalRecordsByLastName_Test() {
 		// GIVEN
 		// WHEN
 		Iterable<MedicalRecords> medicalRecords = medicalRecordsRepository.findAll();
 		// THEN
 		assertThat(medicalRecords).isNotNull();
 	}
-
+	
+	@Test
+	public void getMedicalRecordsByFirstAndLastName_Test() {
+		// GIVEN
+		// WHEN
+		MedicalRecords medicalRecords = medicalRecordsRepository.findByFirstNameAndLastName("John", "Boyd");
+		// THEN
+		assertThat(medicalRecords).isNotNull();
+		assertThat(medicalRecords.getFirstName()).isEqualTo("John");
+		assertThat(medicalRecords.getLastName()).isEqualTo("Boyd");
+}
 }
