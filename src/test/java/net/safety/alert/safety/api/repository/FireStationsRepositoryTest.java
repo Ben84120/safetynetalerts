@@ -2,6 +2,7 @@ package net.safety.alert.safety.api.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -84,4 +85,11 @@ public class FireStationsRepositoryTest {
 		assertThat(fireStations).isNotNull();
 	}
 
+	@Test 
+	public void getFireStationByNumber_Test() {
+		List<FireStations> f = fireStationsRepository.findByStation(1);
+		assertThat(f).isNotNull();
+		assertThat(f).hasSizeBetween(1, 15);
+		
+	}
 }

@@ -57,6 +57,11 @@ public class PersonService {
 		return savedPerson;
 	}
 	
+	public List<Person> getPersonByLastName(String lastName) {
+		return personRepository.getPersonByLastName(lastName);
+		
+	}
+	
 	public PersonStationCover getPersonStationCover(final Integer stationNumber) {
 		log.info("Service Firestation : station: "+stationNumber+" getting persons covered.");
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");

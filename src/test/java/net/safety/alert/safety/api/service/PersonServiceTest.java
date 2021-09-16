@@ -2,6 +2,7 @@ package net.safety.alert.safety.api.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -62,12 +63,50 @@ public class PersonServiceTest {
 		Person savePerson = new Person();
 		savePerson.setFirstName("Fabrice");
 		savePerson.setLastName("Messin");
-		savePerson.setAddress("Rue des cordonniers");
-		savePerson.setCity("Vitrolle");
+		savePerson.setAddress("1509 Culver St");
+		savePerson.setCity("Culver");
 		savePerson.setZip(13700);
 		savePerson.setPhone("874-895-7812");
 		savePerson.setEmail("f.messin@outlook.fr");
 		// THEN
 		personService.savePerson(savePerson);
 	}
+	
+	@Test
+	public void getPersonsNumberByStation_Test() {
+		Person p = new Person();
+		p.setFirstName("James");
+		p.setLastName("Franco");
+		p.setAddress("908 73rd St");
+		p.setCity("Culver");
+		p.setZip(Integer.parseInt("97451"));
+		p.setPhone("841-874-4691");
+		List<String> personPhoneByStation = personService.getPersonPhoneCoverByStation(1);
+		assertThat(personPhoneByStation).isNotNull();
+		
+			}
+	
+	@Test
+	public void  getPersonEmailByCity_Test() {
+		Person p = new Person();
+		p.setFirstName("James");
+		p.setLastName("Franco");
+		p.setAddress("908 73rd St");
+		p.setCity("Culver");
+		List<String> listPersons = personService.getPersonEmailByCity("Culver");
+		assertThat(listPersons).isNotNull();
+		
+	}
+	
+	@Test
+	public void getPersonByLastName_Test() {
+		// GIVEN
+		// WHEN
+		List<Person> personByLastName = personService.getPersonByLastName("Boyd");
+		assertThat(personByLastName).isNotNull();
+		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
+		// THEN
+		;
+	}
+	
 }

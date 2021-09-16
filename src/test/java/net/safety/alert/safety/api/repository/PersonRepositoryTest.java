@@ -18,7 +18,7 @@ public class PersonRepositoryTest {
 	PersonRepository personRepository;
 
 	@Test
-	public void getPersonsTest() {
+	public void getPersons_Test() {
 		// GIVEN
 		// WHEN
 		Iterable<Person> persons = personRepository.findAll();
@@ -29,7 +29,7 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void getPersonsByIdTest() {
+	public void getPersonsById_Test() {
 		// GIVEN
 		// WHEN
 		Optional<Person> persons = personRepository.findById(1L);
@@ -49,7 +49,7 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void getPersonsById_NotExistingTest() {
+	public void getPersonsById_Not_Existing_Test() {
 		// GIVEN
 		// WHEN
 		Optional<Person> persons = personRepository.findById(99L);
@@ -59,7 +59,7 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void deletePersonByIdTest() {
+	public void deletePersonById_Test() {
 		// GIVEN
 		// WHEN
 		personRepository.deleteById(5L);
@@ -70,7 +70,7 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void savePersonTest() {
+	public void savePerson_Test() {
 		// GIVEN
 		// WHEN
 		Person savePerson = new Person();
@@ -90,12 +90,50 @@ public class PersonRepositoryTest {
 	}
 
 	@Test
-	public void getPersonByLastNameTest() {
+	public void getPersonByLastName_Test() {
 		// GIVEN
 		// WHEN
 		List<Person> personByLastName = personRepository.getPersonByLastName("Boyd");
 		// THEN
 		assertThat(personByLastName).isNotNull();
 		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
+	}
+	
+/*	@Test 
+	public void  getPersonInformations_Test() {
+		Person p = new Person();
+		p.setFirstName("Kent");
+		p.setLastName("Clark");
+		p.setAddress("644 Gershwin Cir");
+		p.setPhone("841-874-1284");
+		List<PersonInformations> personsIformations = personRepository.getPersonInformations(1);
+		assertThat(personsIformations).isNotNull();
+		
+	}*/
+	
+	@Test
+	public void getPersonsNumberByStation_Test() {
+		Person p = new Person();
+		p.setFirstName("James");
+		p.setLastName("Franco");
+		p.setAddress("908 73rd St");
+		p.setCity("Culver");
+		p.setZip(Integer.parseInt("97451"));
+		p.setPhone("841-874-4691");
+		List<String> personPhoneByStation = personRepository.getPhoneByStation(1);
+		assertThat(personPhoneByStation).isNotNull();
+		
+			}
+	
+	@Test
+	public void  getPersonEmailByCity_Test() {
+		Person p = new Person();
+		p.setFirstName("James");
+		p.setLastName("Franco");
+		p.setAddress("908 73rd St");
+		p.setCity("Culver");
+		List<Person> listPersons = personRepository.findByCity("Culver");
+		assertThat(listPersons).isNotNull();
+		
 	}
 }
