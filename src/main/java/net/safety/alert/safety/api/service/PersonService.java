@@ -156,9 +156,7 @@ public class PersonService {
             	MedicalRecords medicalRecord = medicalrecordsRepository.findByFirstAndLastName(person.getFirstName(), person.getLastName());
                 LocalDate dateNow = LocalDate.now();
                 LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
-                if (Period.between(birthDate, dateNow).getYears() <= 18) {
-                	pInformation.setAge(pInformation.getAge());
-                }
+                Period.between(dateNow, birthDate).getYears();
                 
                 	
       
