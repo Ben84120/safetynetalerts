@@ -193,7 +193,7 @@ public class PersonControllerTest {
 	}*/
 
 	
-	@Test
+	/*@Test
 	public void getPerson_Not_ExistTest() throws Exception {
 		// GIVEN
 		// WHEN
@@ -208,6 +208,6 @@ public class PersonControllerTest {
 				.contentType(MediaType.APPLICATION_JSON);
 
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
-	}
+	}*/
 	
 }

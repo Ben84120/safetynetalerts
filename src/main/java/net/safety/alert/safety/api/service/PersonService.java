@@ -20,7 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
 import net.safety.alert.safety.api.model.Person;
+import net.safety.alert.safety.api.model.PersonInformations;
 import net.safety.alert.safety.api.model.PersonStationCover;
+import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 import net.safety.alert.safety.api.repository.FirestationsRepository;
 import net.safety.alert.safety.api.repository.MedicalrecordsRepository;
 import net.safety.alert.safety.api.repository.PersonRepository;
@@ -107,7 +109,7 @@ public class PersonService {
 		return phones;
 	}
 	
-	public PersonStationCover getPersonsInformationsAndMedicalRecordsByStation(final Integer stationNumber) {
+	/*public PersonStationCover getPersonsInformationsAndMedicalRecordsByStation(final Integer stationNumber) {
 		log.info("Service Firestation : station: "+stationNumber+" getting persons covered.");
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         PersonStationCover personStationCover = new PersonStationCover();
@@ -134,6 +136,35 @@ public class PersonService {
         
 	
 
-}
+}*/
+	
+	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String firstName, String lastName){
+		PersonStationCover pInfo = new PersonStationCover();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<PersonsInfoWithMedicalRecords> resultat = new ArrayList<>();
+		List<MedicalRecords> mListe = medicalrecordsRepository.findByFirstNameAndLastName(firstName,lastName);
+		if (CollectionUtils.isEmpty(mListe)) {
+	           log.error("Person inconnue");
+	        	throw new MissingParamException("Personne inconnue ");
+	        }
+		mListe.forEach(m -> {
+            List<Person> personsByLastAndFirstName = personRepository.findByLastNameAndFirestName(m.getFirstName(), m.getLastName());/*remplacer findByAdress par findbylastnameandfirstname que je dois créer)*/
+            personsByLastAndFirstName.forEach(person -> {
+            	PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();   
+            	pInformation.setEmail(person.getEmail());
+            	resultat.add(pInformation);
+                LocalDate dateNow = LocalDate.now();
+                LocalDate birthDate = LocalDate.parse(m.getBirthdate(), dateTimeFormatter);
+                if(Period.between(birthDate, dateNow).getYears()) {
+                	pInformation.setAge(pInformation.getAge());
+                }
+                
+                	
+      
+            });
+		});
+		pInfo.setPersonsList(pInfo);
+		return resultat;
+	}
 }
 
