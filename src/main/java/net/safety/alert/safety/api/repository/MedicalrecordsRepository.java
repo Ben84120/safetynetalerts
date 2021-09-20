@@ -17,5 +17,5 @@ public interface MedicalrecordsRepository extends CrudRepository<MedicalRecords,
 	
 	List<MedicalRecords> findByFirstNameAndLastName(String firstName, String lastName);
 	
-	
+	MedicalRecords findByFirstAndLastName(String firstName, String lastName);
 }

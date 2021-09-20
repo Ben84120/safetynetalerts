@@ -79,7 +79,7 @@ public class PersonService {
             personsByAddress.forEach(person -> {
                 personsCovered.add(person);
                 LocalDate dateNow = LocalDate.now();
-                MedicalRecords medicalRecord = medicalrecordsRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                MedicalRecords medicalRecord = medicalrecordsRepository.findByFirstAndLastName(person.getFirstName(), person.getLastName());
                 LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
                 if(Period.between(birthDate, dateNow).getYears() >= 18) {
                     personStationCover.setNombreAdultes(personStationCover.getNombreAdultes()+1);
@@ -148,14 +148,15 @@ public class PersonService {
 	        	throw new MissingParamException("Personne inconnue ");
 	        }
 		mListe.forEach(m -> {
-            List<Person> personsByLastAndFirstName = personRepository.findByLastNameAndFirestName(m.getFirstName(), m.getLastName());/*remplacer findByAdress par findbylastnameandfirstname que je dois créer)*/
+            List<Person> personsByLastAndFirstName = personRepository.findByLastAndFirestName(m.getFirstName(), m.getLastName());
             personsByLastAndFirstName.forEach(person -> {
             	PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();   
             	pInformation.setEmail(person.getEmail());
             	resultat.add(pInformation);
+            	MedicalRecords medicalRecord = medicalrecordsRepository.findByFirstAndLastName(person.getFirstName(), person.getLastName());
                 LocalDate dateNow = LocalDate.now();
-                LocalDate birthDate = LocalDate.parse(m.getBirthdate(), dateTimeFormatter);
-                if(Period.between(birthDate, dateNow).getYears()) {
+                LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
+                if (Period.between(birthDate, dateNow).getYears() <= 18) {
                 	pInformation.setAge(pInformation.getAge());
                 }
                 
