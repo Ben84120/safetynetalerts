@@ -30,7 +30,7 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 	@Query(value = "SELECT P.LAST_NAME, P.FIRST_NAME, P.ADDRESS, P.PHONE, FS.STATION, MR BIRTHDATE, MR.MEDICATIONS, MR.ALLERGIES, MR.BIRTHDATE FROM FIRESTATIONS FS, PERSON P, MEDICALRECORDS MR WHERE FS.ADDRESS=P.ADDRESS AND FS.ADDRESS= :address", nativeQuery = true)
 	List<Person> getPersonsInformationsAndMedicalRecordsByStation(@Param("address")String address);
 	
-	List<Person> findByLastAndFirestName (String lastName, String firstName);
+	List<Person> findByLastNameAndFirstName (String lastName, String firstName);
 	
 	
 	

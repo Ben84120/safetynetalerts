@@ -107,7 +107,7 @@ public class MedicalRecordsRepositoryTest {
 	public void getMedicalRecordsByFirstAndLastName_Test() {
 		// GIVEN
 		// WHEN
-		MedicalRecords medicalRecords = medicalRecordsRepository.findByFirstAndLastName("John", "Boyd");
+		MedicalRecords medicalRecords = medicalRecordsRepository.findByFirstNameAndLastName("John", "Boyd");
 		// THEN
 		assertThat(medicalRecords).isNotNull();
 		assertThat(medicalRecords.getFirstName()).isEqualTo("John");

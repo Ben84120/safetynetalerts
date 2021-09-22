@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
+import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 import net.safety.alert.safety.api.service.PersonService;
 
 @RestController
@@ -101,10 +102,19 @@ public class PersonController {
 		return personService.getPersonPhoneCoverByStation(stationNumber);
 			}
 	
-	@GetMapping("/fire")
+	/*@GetMapping("/fire")
 	public PersonStationCover getPersonsInformationsAndMedicalRecordsByStation(@RequestParam("stationNumber")final Integer stationNumber){
 		return personService.getPersonsInformationsAndMedicalRecordsByStation(stationNumber);
+	}*/
+
+	
+	@GetMapping("/personInfo")
+	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(@RequestParam("firstName")final String firstName, @RequestParam("lastName")final String lastName){
+
+		return personService.getPersonsInfoWithMedicalRecord(firstName, lastName);
+		
 	}
+	
 	
 	}
 	
