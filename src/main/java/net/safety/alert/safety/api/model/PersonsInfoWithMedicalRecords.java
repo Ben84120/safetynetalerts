@@ -24,5 +24,6 @@ public class PersonsInfoWithMedicalRecords implements Serializable  {
 	private String medication;
 	private String allergies;
 	
+	
 
 }

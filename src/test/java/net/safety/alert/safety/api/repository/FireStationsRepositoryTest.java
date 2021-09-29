@@ -70,7 +70,7 @@ public class FireStationsRepositoryTest {
 		saveFireStations.setAddress("Impasse lis aucipres");
 		fireStationsRepository.save(saveFireStations);
 		// THEN
-		FireStations fireStations = fireStationsRepository.getStationsByNumber("5");
+		FireStations fireStations = fireStationsRepository.getStationsByNumber(5);
 		assertThat(fireStations).isNotNull();
 		assertThat(fireStations.getStation()).isEqualTo(5);
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.safety.alert.safety.api.model.FloodStations;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
@@ -102,10 +103,6 @@ public class PersonController {
 		return personService.getPersonPhoneCoverByStation(stationNumber);
 			}
 	
-	/*@GetMapping("/fire")
-	public PersonStationCover getPersonsInformationsAndMedicalRecordsByStation(@RequestParam("stationNumber")final Integer stationNumber){
-		return personService.getPersonsInformationsAndMedicalRecordsByStation(stationNumber);
-	}*/
 
 	
 	@GetMapping("/personInfo")
@@ -115,6 +112,10 @@ public class PersonController {
 		
 	}
 	
+	@GetMapping("/flood/station")
+	public List<FloodStations> getPersonInfoByStation(@RequestParam("station")Integer stationNumber){
+		return personService.findPersonAndMedicalRecordsByStation(stationNumber);
+	}
 	
 	}
 	

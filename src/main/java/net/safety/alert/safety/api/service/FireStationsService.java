@@ -41,22 +41,7 @@ public class FireStationsService {
 		
 	}
 
-	/*public FireStations postMappingStation(final Integer stationNumber) {
-		FireStations mappingStation = new FireStations();
-		List<Person> mappingStation = new ArrayList();
-		List<FireStations> firestations = new ArrayList<>();
-		
-        
-		return mappingStation;
-	}
 	
-	public FireStations putFireStationNumber(final Integer stationNumber) {
-		FireStations fireStationNumber = new FireStations();
-		List<Person> personStationCover = new ArrayList<>();
-		List<FireStations> 
-		
-		
-		return null;*/
 	}
 	
 

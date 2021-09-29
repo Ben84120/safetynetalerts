@@ -12,12 +12,12 @@ import net.safety.alert.safety.api.model.FireStations;
 @Repository
 public interface FirestationsRepository extends CrudRepository<FireStations, Long> {
 
-	@Query(value = "SELECT * FROM FIRESTATIONS F WHERE STATION = :Station", nativeQuery = true)
-	FireStations getStationsByNumber(@Param("Station") String Station);
+	@Query(value = "SELECT * FROM FIRESTATIONS F WHERE STATION = :station", nativeQuery = true)
+	FireStations getStationsByNumber(@Param("station") Integer station);
 
 	List<FireStations> findByStation(int number);
 	
-	/*@Query(value = "UPDATE FIRESTATION SET STATION= :stationNumber WHERE ADDRESS= :address", nativeQuery = true)
-	FireStations putFireStationNumber(@Param("stationNumber") Integer stationNumber);*/
-
+	
+	
+	
 } 

@@ -18,9 +18,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.safety.alert.safety.api.model.FireStations;
+import net.safety.alert.safety.api.model.FloodStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
 import net.safety.alert.safety.api.model.Person;
-import net.safety.alert.safety.api.model.PersonInformations;
 import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 import net.safety.alert.safety.api.repository.FirestationsRepository;
@@ -145,5 +145,48 @@ public class PersonService {
 		
 		return resultat;
 	}
-}
+	
+	/*public List<PersonsInfoWithMedicalRecords> getPersonInfoByStation(Integer stationNumber, String lastName){
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<PersonsInfoWithMedicalRecords> resultat = new ArrayList<>();
+		List<FireStations> firestations = firestationsRepository.findByStation(stationNumber);
+		List<Person> personsByLastAndFirstName = personRepository.getPersonByLastName(lastName);
+		
+		if (CollectionUtils.isEmpty(firestations)) {
+	           log.error("Aucune station n'existe avec ce numéro"+stationNumber);
+	        	throw new MissingParamException("Aucune station n'existe avec ce numéro "+stationNumber);
+	        }
+		personsByLastAndFirstName.forEach(person -> {
+			List<MedicalRecords> mListe = medicalrecordsRepository.findByLastName(lastName);
+			mListe.forEach(m -> {
+            
+				if(m.getLastName() == person.getLastName()) {
+            	PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();   
+            	
+            	pInformation.setNom(m.getLastName());
+            	pInformation.setAdresse(person.getAddress());
+            	pInformation.setPhone(person.getPhone());
+            	pInformation.setMedication(m.getMedications());
+            	pInformation.setAllergies(m.getAllergies());
+                LocalDate dateNow = LocalDate.now();
+                LocalDate birthDate = LocalDate.parse(m.getBirthdate(), dateTimeFormatter);
+                pInformation.setAge(Period.between(birthDate, dateNow).getYears());
+                resultat.add(pInformation);
+            	}
+			});	
+		});
+	        	return resultat;
+	        }*/
+	
+	
+	public List<FloodStations> findPersonAndMedicalRecordsByStation (Integer stationNumber){
+		List<FloodStations> floodStations = personRepository.findPersonAndMedicalRecordsByStation(stationNumber);
+		
+		return floodStations;
+	}
+	
+	}
+		
+	
+
 

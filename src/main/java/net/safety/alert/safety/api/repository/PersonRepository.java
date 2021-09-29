@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import net.safety.alert.safety.api.model.FloodStations;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonInformations;;
 
@@ -27,12 +28,13 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 
 	List<Person> findByCity(String city);
 	
-	@Query(value = "SELECT P.LAST_NAME, P.FIRST_NAME, P.ADDRESS, P.PHONE, FS.STATION, MR BIRTHDATE, MR.MEDICATIONS, MR.ALLERGIES, MR.BIRTHDATE FROM FIRESTATIONS FS, PERSON P, MEDICALRECORDS MR WHERE FS.ADDRESS=P.ADDRESS AND FS.ADDRESS= :address", nativeQuery = true)
+	@Query(value = "SELECT P.LAST_NAME, P.FIRST_NAME, P.ADDRESS, P.PHONE, FS.STATION, MR BIRTHDATE, MR.MEDICATIONS, MR.ALLERGIES, FROM FIRESTATIONS FS, PERSON P, MEDICALRECORDS MR WHERE FS.ADDRESS=P.ADDRESS AND FS.ADDRESS= :address", nativeQuery = true)
 	List<Person> getPersonsInformationsAndMedicalRecordsByStation(@Param("address")String address);
 	
 	List<Person> findByLastNameAndFirstName (String lastName, String firstName);
 	
-	
+	@Query(value = "SELECT P.LAST_NAME, P.FIRST_NAME, P.PHONE, F.STATION, MS.BIRTHDATE, MS.MEDICATIONS, MS.ALLERGIES FROM PERSON P, FIRESTATIONS F, MEDICALRECORDS MS WHERE  F.ADDRESS=P.ADDRESS AND MS.LAST_NAME = P.LAST_NAME AND MS.FIRST_NAME = P.FIRST_NAME AND F.STATION= :stationNumber GROUP BY F.ADDRESS, P.LAST_NAME, P.FIRST_NAME, P.PHONE, F.STATION, MS.BIRTHDATE, MS.MEDICATIONS, MS.ALLERGIES ", nativeQuery = true)
+	List<FloodStations> findPersonAndMedicalRecordsByStation(@Param("stationNumber") Integer stationNumber);
 	
 	
 	
