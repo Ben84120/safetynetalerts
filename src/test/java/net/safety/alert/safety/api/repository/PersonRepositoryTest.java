@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import net.safety.alert.safety.api.model.FireStations;
+import net.safety.alert.safety.api.model.FloodStations;
+import net.safety.alert.safety.api.model.MedicalRecords;
 import net.safety.alert.safety.api.model.Person;
+import net.safety.alert.safety.api.model.PersonInformations;
 
 @SpringBootTest
 public class PersonRepositoryTest {
@@ -99,17 +103,19 @@ public class PersonRepositoryTest {
 		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
 	}
 	
-/*	@Test 
+	@Test 
 	public void  getPersonInformations_Test() {
-		Person p = new Person();
-		p.setFirstName("Kent");
-		p.setLastName("Clark");
-		p.setAddress("644 Gershwin Cir");
-		p.setPhone("841-874-1284");
-		List<PersonInformations> personsIformations = personRepository.getPersonInformations(1);
-		assertThat(personsIformations).isNotNull();
+		PersonInformations p = new PersonInformations();
+		FireStations f = new FireStations();
+		p.setNom("Kent");
+		p.setPrenom("Clark");
+		p.setAdresse("644 Gershwin Cir");
+		p.setNumeroTel("841-874-5873");
+		f.setStation(91);
+		List<PersonInformations> personInformations = personRepository.getPersonInformations(91);
+		assertThat(personInformations).isNotNull();
 		
-	}*/
+	}
 	
 	@Test
 	public void getPersonsNumberByStation_Test() {
@@ -135,5 +141,29 @@ public class PersonRepositoryTest {
 		List<Person> listPersons = personRepository.findByCity("Culver");
 		assertThat(listPersons).isNotNull();
 		
+	}
+	
+	@Test
+	public void findPersonAndMedicalRecordsByStation_Test() {  
+		Person p = new Person();
+		FireStations f = new FireStations();
+		p.setFirstName("Carl");
+		p.setLastName("Hunter");
+		p.setAddress("908 73rd St");
+		p.setPhone("841-874-1489");
+		f.setStation(67);
+		List<FloodStations> listPersons = personRepository.findPersonAndMedicalRecordsByStation(67);
+		 assertThat(listPersons).isNotNull();
+	}
+	
+	@Test
+	public void findByLastNameAndFirstName() {
+		Person p = new Person();
+		p.setFirstName("Carl");
+		p.setLastName("Hunter");
+		List<Person> listPersons = personRepository.findByLastNameAndFirstName("Hunter", "Carl");
+		listPersons.add(p);
+		assertThat(listPersons).isNotNull();
+		assertThat(listPersons.get(0)).isEqualTo(p);
 	}
 }
