@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import net.safety.alert.safety.api.model.MedicalRecords;
 import net.safety.alert.safety.api.model.Person;
+import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -93,6 +95,7 @@ public class PersonServiceTest {
 		p.setLastName("Franco");
 		p.setAddress("908 73rd St");
 		p.setCity("Culver");
+		p.setEmail("j.franco@yahoo.fr");
 		List<String> listPersons = personService.getPersonEmailByCity("Culver");
 		assertThat(listPersons).isNotNull();
 		
@@ -110,6 +113,14 @@ public class PersonServiceTest {
 	}
 	
 	
-	
+	@Test
+	public void getPersonsInfoWithMedicalRecord() {
+		List<PersonsInfoWithMedicalRecords> pInfos = personService.getPersonsInfoWithMedicalRecord("John", "Boyd");
+		assertThat(pInfos).isNotNull();
+		assertThat(pInfos.isEmpty()).isFalse();
+		
+		
+		
+	}  
 	
 }

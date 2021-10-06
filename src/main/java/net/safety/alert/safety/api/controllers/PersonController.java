@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.safety.alert.safety.api.model.ChildAlert;
 import net.safety.alert.safety.api.model.FloodStations;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
@@ -115,6 +116,13 @@ public class PersonController {
 	@GetMapping("/flood/station")
 	public List<FloodStations> getPersonInfoByStation(@RequestParam("station")Integer stationNumber){
 		return personService.findPersonAndMedicalRecordsByStation(stationNumber);
+	}
+	
+	@GetMapping("/childAlert")
+	public List<ChildAlert> getChildAlert(@RequestParam("address")final String address){
+
+		return personService.getChildAlert(address);
+		
 	}
 	
 	}

@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.safety.alert.safety.api.model.ChildAlert;
 import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.FloodStations;
 import net.safety.alert.safety.api.model.MedicalRecords;
@@ -146,43 +147,30 @@ public class PersonService {
 		return resultat;
 	}
 	
-	/*public List<PersonsInfoWithMedicalRecords> getPersonInfoByStation(Integer stationNumber, String lastName){
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		List<PersonsInfoWithMedicalRecords> resultat = new ArrayList<>();
-		List<FireStations> firestations = firestationsRepository.findByStation(stationNumber);
-		List<Person> personsByLastAndFirstName = personRepository.getPersonByLastName(lastName);
-		
-		if (CollectionUtils.isEmpty(firestations)) {
-	           log.error("Aucune station n'existe avec ce numéro"+stationNumber);
-	        	throw new MissingParamException("Aucune station n'existe avec ce numéro "+stationNumber);
-	        }
-		personsByLastAndFirstName.forEach(person -> {
-			List<MedicalRecords> mListe = medicalrecordsRepository.findByLastName(lastName);
-			mListe.forEach(m -> {
-            
-				if(m.getLastName() == person.getLastName()) {
-            	PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();   
-            	
-            	pInformation.setNom(m.getLastName());
-            	pInformation.setAdresse(person.getAddress());
-            	pInformation.setPhone(person.getPhone());
-            	pInformation.setMedication(m.getMedications());
-            	pInformation.setAllergies(m.getAllergies());
-                LocalDate dateNow = LocalDate.now();
-                LocalDate birthDate = LocalDate.parse(m.getBirthdate(), dateTimeFormatter);
-                pInformation.setAge(Period.between(birthDate, dateNow).getYears());
-                resultat.add(pInformation);
-            	}
-			});	
-		});
-	        	return resultat;
-	        }*/
 	
 	
 	public List<FloodStations> findPersonAndMedicalRecordsByStation (Integer stationNumber){
 		List<FloodStations> floodStations = personRepository.findPersonAndMedicalRecordsByStation(stationNumber);
 		
 		return floodStations;
+	}
+
+	public List<ChildAlert> getChildAlert(String address) {
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<ChildAlert> resultat = new ArrayList<>();
+		List<Person> persons = personRepository.findByAddress(address);
+		for(Person person:persons) {
+			LocalDate dateNow = LocalDate.now();
+			MedicalRecords findByFirstNameAndLastName = medicalrecordsRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+			LocalDate birthDate = LocalDate.parse(findByFirstNameAndLastName.getBirthdate(), dateTimeFormatter);
+            if (Period.between(birthDate, dateNow).getYears() <= 18) {
+            ChildAlert child = new ChildAlert();
+            child.setFirstName(person.getFirstName());
+            child.setLastName(person.getLastName());    
+            	resultat.add(child);    
+            }
+		}
+		return resultat;
 	}
 	
 	}
