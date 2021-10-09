@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 import net.safety.alert.safety.api.model.MedicalRecords;
-import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.repository.MedicalrecordsRepository;
 
 @Setter

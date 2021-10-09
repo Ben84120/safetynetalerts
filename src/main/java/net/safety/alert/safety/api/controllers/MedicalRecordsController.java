@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.MedicalRecords;
-import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.service.MedicalRecordsService;
 
 @RestController

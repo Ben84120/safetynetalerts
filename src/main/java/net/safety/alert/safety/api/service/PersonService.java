@@ -1,7 +1,5 @@
 package net.safety.alert.safety.api.service;
 
-
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -59,99 +57,95 @@ public class PersonService {
 		Person savedPerson = personRepository.save(person);
 		return savedPerson;
 	}
-	
+
 	public List<Person> getPersonByLastName(String lastName) {
 		return personRepository.getPersonByLastName(lastName);
-		
+
 	}
-	
+
 	public PersonStationCover getPersonStationCover(final Integer stationNumber) {
-		log.info("Service Firestation : station: "+stationNumber+" getting persons covered.");
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        PersonStationCover personStationCover = new PersonStationCover();
-        List<Person> personsCovered = new ArrayList<>();
-        List<FireStations> firestations = firestationsRepository.findByStation(stationNumber);
-        if (CollectionUtils.isEmpty(firestations)) {
-           log.error("Aucune station n'existe avec ce numéro"+stationNumber);
-        	throw new MissingParamException("Aucune station n'existe avec ce numéro "+stationNumber);
-        }
-        firestations.forEach(firestation -> {
-            List<Person> personsByAddress = personRepository.findByAddress(firestation.getAddress());
-            personsByAddress.forEach(person -> {
-                personsCovered.add(person);
-                LocalDate dateNow = LocalDate.now();
-                MedicalRecords medicalRecord = medicalrecordsRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-                LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
-                if(Period.between(birthDate, dateNow).getYears() >= 18) {
-                    personStationCover.setNombreAdultes(personStationCover.getNombreAdultes()+1);
-                }
-                if (Period.between(birthDate, dateNow).getYears() <= 18) {
-                    personStationCover.setNombreMineurs(personStationCover.getNombreMineurs()+1);
-                }
-            });
-        });
-        personStationCover.setPersonsList(personsCovered);
-        return personStationCover;
+		log.info("Service Firestation : station: " + stationNumber + " getting persons covered.");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		PersonStationCover personStationCover = new PersonStationCover();
+		List<Person> personsCovered = new ArrayList<>();
+		List<FireStations> firestations = firestationsRepository.findByStation(stationNumber);
+		if (CollectionUtils.isEmpty(firestations)) {
+			log.error("Aucune station n'existe avec ce numéro" + stationNumber);
+			throw new MissingParamException("Aucune station n'existe avec ce numéro " + stationNumber);
+		}
+		firestations.forEach(firestation -> {
+			List<Person> personsByAddress = personRepository.findByAddress(firestation.getAddress());
+			personsByAddress.forEach(person -> {
+				personsCovered.add(person);
+				LocalDate dateNow = LocalDate.now();
+				MedicalRecords medicalRecord = medicalrecordsRepository
+						.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+				LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
+				if (Period.between(birthDate, dateNow).getYears() >= 18) {
+					personStationCover.setNombreAdultes(personStationCover.getNombreAdultes() + 1);
+				}
+				if (Period.between(birthDate, dateNow).getYears() <= 18) {
+					personStationCover.setNombreMineurs(personStationCover.getNombreMineurs() + 1);
+				}
+			});
+		});
+		personStationCover.setPersonsList(personsCovered);
+		return personStationCover;
 	}
-	
+
 	public List<String> getPersonEmailByCity(final String city) {
 		List<Person> persons = personRepository.findByCity(city);
 		List<String> emails = new ArrayList<>();
-		for(Person person:persons) {
+		for (Person person : persons) {
 			emails.add(person.getEmail());
 		}
-		
+
 		return emails;
 	}
-	
+
 	public List<String> getPersonPhoneCoverByStation(final Integer stationNumber) {
 		List<String> phones = personRepository.getPhoneByStation(stationNumber);
-		
+
 		return phones;
 	}
-	
-	
-	
-	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String firstName, String lastName){
+
+	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String firstName, String lastName) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<PersonsInfoWithMedicalRecords> resultat = new ArrayList<>();
 		List<Person> personsByLastAndFirstName = personRepository.findByLastNameAndFirstName(lastName, firstName);
-		
+
 		if (CollectionUtils.isEmpty(personsByLastAndFirstName)) {
-	           log.error("Person inconnue");
-	        	throw new MissingParamException("Personne inconnue ");
-	        }
-			personsByLastAndFirstName.forEach(person -> {
+			log.error("Person inconnue");
+			throw new MissingParamException("Personne inconnue ");
+		}
+		personsByLastAndFirstName.forEach(person -> {
 			List<MedicalRecords> mListe = medicalrecordsRepository.findByLastName(lastName);
 			mListe.forEach(m -> {
-            
-            	if(m.getLastName() == person.getLastName() && m.getFirstName() == person.getFirstName()) {
-            	PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();   
-            	
-            	pInformation.setNom(m.getLastName());
-            	pInformation.setPrenom(m.getFirstName());
-            	pInformation.setAdresse(person.getAddress());
-            	pInformation.setEmail(person.getEmail());
-            	pInformation.setMedication(m.getMedications());
-            	pInformation.setAllergies(m.getAllergies());
-                LocalDate dateNow = LocalDate.now();
-                LocalDate birthDate = LocalDate.parse(m.getBirthdate(), dateTimeFormatter);
-                pInformation.setAge(Period.between(birthDate, dateNow).getYears());
-                resultat.add(pInformation);
-            	}
-                	
-      
-            });
+
+				if (m.getLastName() == person.getLastName() && m.getFirstName() == person.getFirstName()) {
+					PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();
+
+					pInformation.setNom(m.getLastName());
+					pInformation.setPrenom(m.getFirstName());
+					pInformation.setAdresse(person.getAddress());
+					pInformation.setEmail(person.getEmail());
+					pInformation.setMedication(m.getMedications());
+					pInformation.setAllergies(m.getAllergies());
+					LocalDate dateNow = LocalDate.now();
+					LocalDate birthDate = LocalDate.parse(m.getBirthdate(), dateTimeFormatter);
+					pInformation.setAge(Period.between(birthDate, dateNow).getYears());
+					resultat.add(pInformation);
+				}
+
+			});
 		});
-		
+
 		return resultat;
 	}
-	
-	
-	
-	public List<FloodStations> findPersonAndMedicalRecordsByStation (Integer stationNumber){
+
+	public List<FloodStations> findPersonAndMedicalRecordsByStation(Integer stationNumber) {
 		List<FloodStations> floodStations = personRepository.findPersonAndMedicalRecordsByStation(stationNumber);
-		
+
 		return floodStations;
 	}
 
@@ -159,22 +153,19 @@ public class PersonService {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<ChildAlert> resultat = new ArrayList<>();
 		List<Person> persons = personRepository.findByAddress(address);
-		for(Person person:persons) {
+		for (Person person : persons) {
 			LocalDate dateNow = LocalDate.now();
-			MedicalRecords findByFirstNameAndLastName = medicalrecordsRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+			MedicalRecords findByFirstNameAndLastName = medicalrecordsRepository
+					.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 			LocalDate birthDate = LocalDate.parse(findByFirstNameAndLastName.getBirthdate(), dateTimeFormatter);
-            if (Period.between(birthDate, dateNow).getYears() <= 18) {
-            ChildAlert child = new ChildAlert();
-            child.setFirstName(person.getFirstName());
-            child.setLastName(person.getLastName());    
-            	resultat.add(child);    
-            }
+			if (Period.between(birthDate, dateNow).getYears() <= 18) {
+				ChildAlert child = new ChildAlert();
+				child.setFirstName(person.getFirstName());
+				child.setLastName(person.getLastName());
+				resultat.add(child);
+			}
 		}
 		return resultat;
 	}
-	
-	}
-		
-	
 
-
+}

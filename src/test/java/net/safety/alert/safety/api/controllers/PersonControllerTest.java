@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.safety.alert.safety.api.model.Person;
+import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.service.PersonService;
 
 @WebMvcTest(controllers = PersonController.class)
@@ -178,36 +179,24 @@ public class PersonControllerTest {
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
-	/*@Test
-	public void PersonStationCover_Test() throws Exception {
+	@Test
+	public void getPersonStationCover() throws Exception {
+		PersonStationCover personCover = new PersonStationCover();
 		
-		List<Person> personList = new ArrayList<>();
-		assertThat(personList).isNotNull();
+		personCover.setNombreAdultes(15);
+		personCover.setNombreMineurs(6);
+		personServiceMock.getPersonStationCover(28);
 		
-		when(personServiceMock.getPersonStationCover(3)).thenReturn(personList);
+		when(personServiceMock.getPersonStationCover(28)).thenReturn(personCover);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String writeValueAsString = mapper.writeValueAsString(personCover);
 
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person/42")
-				.contentType(MediaType.APPLICATION_JSON);
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/firestation?stationNumber=28")
+				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
-	}*/
-
+	}
+	}
 	
-	/*@Test
-	public void getPerson_Not_ExistTest() throws Exception {
-		// GIVEN
-		// WHEN
-		Person person = new Person();
-		person.setFirstName(null);
-		person.setLastName(null);
-		// THEN
-		
-		when(personServiceMock.getPerson()).thenReturn(null);
 
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person")
-				.contentType(MediaType.APPLICATION_JSON);
-
-		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
-	}*/
-	
-}

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.safety.alert.safety.api.model.MedicalRecords;
-import net.safety.alert.safety.api.model.Person;
 
 @SpringBootTest
 public class MedicalRecordsServiceTest {
