@@ -189,10 +189,13 @@ public class PersonService {
 			}
 				
 				// Ajouter la liste de medicalrecord à la classe qui contient uniquement une liste de medicalrecord.
+			});
 			
+		});
+
 		
-		
-			}
+		}
+	
 
 	public List<ChildAlert> getChildAlert(String address) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
