@@ -18,7 +18,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.safety.alert.safety.api.model.ChildAlert;
 import net.safety.alert.safety.api.model.FireStations;
-import net.safety.alert.safety.api.model.FloodStations;
+import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.MedicalRecords;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
@@ -111,16 +111,16 @@ public class PersonService {
 		return phones;
 	}
 
-	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String firstName, String lastName) {
+	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String lastName) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<PersonsInfoWithMedicalRecords> resultat = new ArrayList<>();
-		List<Person> personsByLastAndFirstName = personRepository.findByLastNameAndFirstName(lastName, firstName);
+		List<Person> personsByLastName = personRepository.findByLastName(lastName);
 
-		if (CollectionUtils.isEmpty(personsByLastAndFirstName)) {
+		if (CollectionUtils.isEmpty(personsByLastName)) {
 			log.error("Person inconnue");
 			throw new MissingParamException("Personne inconnue ");
 		}
-		personsByLastAndFirstName.forEach(person -> {
+		personsByLastName.forEach(person -> {
 			List<MedicalRecords> mListe = medicalrecordsRepository.findByLastName(lastName);
 			mListe.forEach(m -> {
 
@@ -128,7 +128,7 @@ public class PersonService {
 					PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();
 
 					pInformation.setNom(m.getLastName());
-					pInformation.setPrenom(m.getFirstName());
+					// pInformation.setPrenom(m.getFirstName());
 					pInformation.setAdresse(person.getAddress());
 					pInformation.setEmail(person.getEmail());
 					pInformation.setMedication(m.getMedications());
@@ -145,58 +145,81 @@ public class PersonService {
 		return resultat;
 	}
 
-	public void findPersonAndMedicalRecordsByStation(Integer stationNumber) {
+	public List<Foster> findPersonAndMedicalRecordsByStation(Integer stationNumber) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<FireStations> stations = firestationsRepository.findByStation(stationNumber);
 		List<Person> persons = personRepository.findAll();
 		List<MedicalRecords> medicalRecords = medicalrecordsRepository.findAll();
-		
+
+		List<Foster> fosters = new ArrayList<>();
 		stations.forEach(station -> {
 			List<PersonWithMedicalRecords> p = new ArrayList<>();
-			System.out.println(station);
 			persons.forEach(person -> {
-				if(station.getAddress().equals(person.getAddress())) {
-				System.out.println(person);
-				medicalRecords.forEach(medicalRecord -> {
-					if(medicalRecord.getFirstName().equals(person.getFirstName()) && medicalRecord.getLastName().equals(person.getLastName())) {
-						System.out.println(medicalRecord);
-						// Créer une personwithmedicalrecord ici.
-						String myMedications[] = medicalRecord.getMedications().split(",");
-						System.out.println(myMedications);
-						String myAllergies[] = medicalRecord.getAllergies().split(",");
-						System.out.println(myAllergies);
-						
-						PersonWithMedicalRecords pWithMedicalRecords = new PersonWithMedicalRecords();
-						pWithMedicalRecords.setLastName(medicalRecord.getLastName());
-						pWithMedicalRecords.setFirstName(medicalRecord.getFirstName());
-						pWithMedicalRecords.setAddress(person.getAddress());
-						pWithMedicalRecords.setPhone(person.getPhone());
-						pWithMedicalRecords.setEmail(person.getEmail());
-						pWithMedicalRecords.setMedications(myMedications);
-						pWithMedicalRecords.setAllergies(myAllergies);
-						LocalDate dateNow = LocalDate.now();
-						LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
-						pWithMedicalRecords.setAge(Period.between(birthDate, dateNow).getYears());
-						// Ajouter la classe dans la list p.
-						p.add(pWithMedicalRecords);
-						
-						// Créer une classe qui regroupe une liste de personnewithmedicalrecord.
-						
-					}
-					
-				});
-				
-			}
-				
-				// Ajouter la liste de medicalrecord à la classe qui contient uniquement une liste de medicalrecord.
+				if (station.getAddress().equals(person.getAddress())) {
+					medicalRecords.forEach(medicalRecord -> {
+						if (medicalRecord.getFirstName().equals(person.getFirstName())
+								&& medicalRecord.getLastName().equals(person.getLastName())) {
+
+							String myMedications[] = medicalRecord.getMedications().split(",");
+							String myAllergies[] = medicalRecord.getAllergies().split(",");
+							PersonWithMedicalRecords pWithMedicalRecords = new PersonWithMedicalRecords();
+							pWithMedicalRecords.setLastName(medicalRecord.getLastName());
+							pWithMedicalRecords.setFirstName(medicalRecord.getFirstName());
+							pWithMedicalRecords.setPhone(person.getPhone());
+							pWithMedicalRecords.setMedications(myMedications);
+							pWithMedicalRecords.setAllergies(myAllergies);
+							LocalDate dateNow = LocalDate.now();
+							LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
+							pWithMedicalRecords.setAge(Period.between(birthDate, dateNow).getYears());
+							p.add(pWithMedicalRecords);
+						}
+					});
+				}
 			});
-			
+			fosters.add(new Foster(station.getAddress(), p));
 		});
+		return fosters;
+	}
 
+	public List<Foster> getFireAddress(String adress){
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<FireStations> stations = firestationsRepository.findByAddress(adress);
+		List<Person> persons = personRepository.findAll();
+		List<MedicalRecords> medicalRecords = medicalrecordsRepository.findAll();
 		
-		}
+		List<Foster> fosters = new ArrayList<>();
+		stations.forEach(station -> {
+			List<PersonWithMedicalRecords> p = new ArrayList<>();
+			persons.forEach(person -> {
+				if (station.getAddress().equals(person.getAddress())) {
+					medicalRecords.forEach(medicalRecord -> {
+						if (medicalRecord.getFirstName().equals(person.getFirstName())
+								&& medicalRecord.getLastName().equals(person.getLastName())) {
+		
+							String myMedications[] = medicalRecord.getMedications().split(",");
+							String myAllergies[] = medicalRecord.getAllergies().split(",");
+							PersonWithMedicalRecords pWithMedicalRecords = new PersonWithMedicalRecords();
+							FireStations fireStations = new FireStations();
+							
+							fireStations.setStation(fireStations.getStation());
+							pWithMedicalRecords.setLastName(medicalRecord.getLastName());
+							pWithMedicalRecords.setFirstName(medicalRecord.getFirstName());
+							pWithMedicalRecords.setPhone(person.getPhone());
+							pWithMedicalRecords.setMedications(myMedications);
+							pWithMedicalRecords.setAllergies(myAllergies);
+							LocalDate dateNow = LocalDate.now();
+							LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
+							pWithMedicalRecords.setAge(Period.between(birthDate, dateNow).getYears());
+							p.add(pWithMedicalRecords);
+						}
+					});
+				}
+			});
+			fosters.add(new Foster(station.getAddress(), p));
+		});
+		return fosters;
+	}
 	
-
 	public List<ChildAlert> getChildAlert(String address) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<ChildAlert> resultat = new ArrayList<>();
@@ -210,7 +233,11 @@ public class PersonService {
 				ChildAlert child = new ChildAlert();
 				child.setFirstName(person.getFirstName());
 				child.setLastName(person.getLastName());
-				List<Person> membresfamille = persons.stream().filter(p -> p.getAddress().equals(person.getAddress() ) && p.getLastName().equals(person.getLastName() ) && !p.getFirstName().equals(person.getFirstName() )).collect(Collectors.toList());
+				List<Person> membresfamille = persons.stream()
+						.filter(p -> p.getAddress().equals(person.getAddress())
+								&& p.getLastName().equals(person.getLastName())
+								&& !p.getFirstName().equals(person.getFirstName()))
+						.collect(Collectors.toList());
 
 				child.setMembreFamille(membresfamille);
 				resultat.add(child);

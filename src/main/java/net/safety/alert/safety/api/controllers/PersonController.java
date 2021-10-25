@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.ChildAlert;
-import net.safety.alert.safety.api.model.FloodStations;
+import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
+import net.safety.alert.safety.api.model.PersonWithMedicalRecords;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 import net.safety.alert.safety.api.service.PersonService;
 
@@ -87,44 +88,49 @@ public class PersonController {
 	public void deletePerson(@PathVariable("id") final Long id) {
 		personService.deletePerson(id);
 	}
-	
+
 	@GetMapping("/firestation")
-	public PersonStationCover getPersonStationCover(@RequestParam("stationNumber") final Integer stationNumber )  {
+	public PersonStationCover getPersonStationCover(@RequestParam("stationNumber") final Integer stationNumber) {
 
 		return personService.getPersonStationCover(stationNumber);
 
-		}
+	}
+
 	@GetMapping("/communityEmail")
 	public List<String> getPersonEmailByCity(@RequestParam("city") final String city) {
 		return personService.getPersonEmailByCity(city);
-		}
-	
+	}
+
 	@GetMapping("/phoneAlert")
-	public List<String> getPersonPhoneCoverByStation(@RequestParam("firestation") final Integer stationNumber){		
+	public List<String> getPersonPhoneCoverByStation(@RequestParam("firestation") final Integer stationNumber) {
 		return personService.getPersonPhoneCoverByStation(stationNumber);
-			}
-	
+	}
 
-	
 	@GetMapping("/personInfo")
-	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(@RequestParam("firstName")final String firstName, @RequestParam("lastName")final String lastName){
+	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(
+			@RequestParam("lastName") final String lastName) {
 
-		return personService.getPersonsInfoWithMedicalRecord(firstName, lastName);
-		
+		return personService.getPersonsInfoWithMedicalRecord(lastName);
+
 	}
-	
+
 	@GetMapping("/flood/station")
-	public List<FloodStations> getPersonInfoByStation(@RequestParam("station")Integer stationNumber){
-		return personService.findPersonAndMedicalRecordsByStation(stationNumber);
+	public List<Foster> getPersonInfoByStation(@RequestParam("station") Integer stationNumber) {
+		List<Foster> fosters = personService.findPersonAndMedicalRecordsByStation(stationNumber);
+		return fosters;
 	}
 	
+	@GetMapping("/fire")
+	public List<Foster> getFireAddress(@RequestParam("address")String address){
+		List<Foster> fire = personService.getFireAddress(address);
+		return fire;
+	}
+
 	@GetMapping("/childAlert")
-	public List<ChildAlert> getChildAlert(@RequestParam("address")final String address){
+	public List<ChildAlert> getChildAlert(@RequestParam("address") final String address) {
 
 		return personService.getChildAlert(address);
-		
-	}
-	
-	}
-	
 
+	}
+
+}
