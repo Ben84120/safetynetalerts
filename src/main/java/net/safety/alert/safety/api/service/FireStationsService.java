@@ -23,19 +23,38 @@ public class FireStationsService {
 	@Autowired
 	private PersonRepository personRepository;
 
+	/**
+	*@param Identifiant de la FireStations.
+	*
+	*@return La station par son identifiant.
+	*/
 	public Optional<FireStations> getFireStationsById(final Long id) {
 		return firestationsRepository.findById(id);
 	}
-
+	
+	/**
+	*@return L'ensemble des FireStations.
+	*
+	*/
 	public Iterable<FireStations> getFireStations() {
 		return firestationsRepository.findAll();
 	}
 
+	/**
+	*@param La FireStations qui va être sauvegardée.
+	*
+	*@return La FireStation sauvegardée.
+	*/
 	public FireStations saveFireStations(FireStations fireStations) {
 		FireStations savedFireStations = firestationsRepository.save(fireStations);
 		return savedFireStations;
 	}
-
+	
+	/**
+	*@param Identifiant de la FireStations.
+	*
+	*@return La FireStation supprimée par son ID.
+	*/
 	public void deleteFireStationsById(final Long id) {
 		firestationsRepository.deleteById(id);
 

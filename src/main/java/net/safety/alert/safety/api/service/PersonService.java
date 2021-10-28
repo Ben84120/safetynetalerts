@@ -54,10 +54,18 @@ public class PersonService {
 		return personRepository.findById(id);
 	}
 
+	/**
+	 * @return L'ensemble des personnes.
+	 */
 	public Iterable<Person> getPerson() {
 		return personRepository.findAll();
 	}
-
+	
+	/**
+	 * @param Identifiant d'une personne.
+	 *
+	 * @return La personne supprimée par son ID.
+	 */
 	public void deletePerson(final Long id) {
 		personRepository.deleteById(id);
 	}
@@ -137,7 +145,8 @@ public class PersonService {
 	/**
 	 * @param numéro de la station demandée.
 	 *
-	 * @return Les numéros de téléphones des personnes couvertes par la station choisie.
+	 * @return Les numéros de téléphones des personnes couvertes par la station
+	 *         choisie.
 	 */
 	public List<String> getPersonPhoneCoverByStation(final Integer stationNumber) {
 		List<String> phones = personRepository.getPhoneByStation(stationNumber);
@@ -150,7 +159,8 @@ public class PersonService {
 	 *
 	 * @throws MissingParamException si jamais le paramètre n'existe pas.
 	 *
-	 * @return La liste des PersonsInfoWithMedicalRecords par le nom de famille ainsi que leurs homonymes.
+	 * @return La liste des PersonsInfoWithMedicalRecords par le nom de famille
+	 *         ainsi que leurs homonymes.
 	 */
 	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String lastName) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -186,6 +196,13 @@ public class PersonService {
 		return resultat;
 	}
 
+	/**
+	 * @param numéro de la station demandée.
+	 *
+	 *
+	 * @return La liste des Fosters desservis par le numéro de station.
+	 * 
+	 */
 	public List<Foster> findPersonAndMedicalRecordsByStation(Integer stationNumber) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<FireStations> stations = firestationsRepository.findByStation(stationNumber);
@@ -222,6 +239,13 @@ public class PersonService {
 		return fosters;
 	}
 
+	/**
+	 * @param adresse des personnes choisie.
+	 *
+	 *
+	 * @return La liste des FirePersons ainsi que le numéro de la Firestation.
+	 * 
+	 */
 	public List<FirePersons> getFireAddress(String adress) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<FireStations> stations = firestationsRepository.findByAddress(adress);
@@ -257,7 +281,13 @@ public class PersonService {
 		});
 		return pWithFire;
 	}
-
+	/**
+	 * @param adresse des personnes choisie.
+	 *
+	 *
+	 * @return La liste des ChildAlert de 18 ans ou moins.
+	 * 
+	 */
 	public List<ChildAlert> getChildAlert(String address) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<ChildAlert> resultat = new ArrayList<>();
