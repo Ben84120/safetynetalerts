@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.safety.alert.safety.api.model.ChildAlert;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.service.PersonService;
@@ -31,7 +32,6 @@ public class PersonControllerTest {
 
 	@MockBean
 	private PersonService personServiceMock;
-	
 
 	@Test
 	public void getPerson_Test() throws Exception {
@@ -48,8 +48,7 @@ public class PersonControllerTest {
 		personList.add(person);
 
 		when(personServiceMock.getPerson()).thenReturn(personList);
-		
-		
+
 		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person")
 				.contentType(MediaType.APPLICATION_JSON);
 
@@ -182,13 +181,13 @@ public class PersonControllerTest {
 	@Test
 	public void getPersonStationCover() throws Exception {
 		PersonStationCover personCover = new PersonStationCover();
-		
+
 		personCover.setNombreAdultes(15);
 		personCover.setNombreMineurs(6);
 		personServiceMock.getPersonStationCover(28);
-		
+
 		when(personServiceMock.getPersonStationCover(28)).thenReturn(personCover);
-		
+
 		ObjectMapper mapper = new ObjectMapper();
 		String writeValueAsString = mapper.writeValueAsString(personCover);
 
@@ -197,6 +196,26 @@ public class PersonControllerTest {
 
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
 	}
-	}
 	
+	/*@Test
+	public void getChildAlert() throws Exception {
+		ChildAlert cA = new ChildAlert();
+		cA.setFirstName("Zach");
+		cA.setLastName("Zemicks");
+		cA.setBirthDate(4);
+		List<ChildAlert> lCA = new ArrayList<>();
+		lCA.add(cA);
+		
+		when(personServiceMock.getChildAlert("892 Downing Ct")).thenReturn(lCA);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String writeValueAsString = mapper.writeValueAsString(lCA);
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/ChildAlert")
+				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+	}*/
+}
+
 

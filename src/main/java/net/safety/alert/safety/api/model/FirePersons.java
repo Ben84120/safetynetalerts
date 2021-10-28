@@ -1,6 +1,5 @@
 package net.safety.alert.safety.api.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -12,14 +11,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonStationCover implements Serializable {
+public class FirePersons {
 
-	private static final long serialVersionUID = 20000000L;
-
-	private List<Person> personsList;
-
-	private int nombreAdultes;
-
-	private int nombreMineurs;
+	private Integer station;
+	List<PersonsWithFireStationNumber> persons;
 
 }

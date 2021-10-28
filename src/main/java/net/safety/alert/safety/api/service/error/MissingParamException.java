@@ -2,11 +2,7 @@ package net.safety.alert.safety.api.service.error;
 
 public class MissingParamException extends RuntimeException {
 
-	
-
 	public MissingParamException() {
-
-		// TODO Auto-generated constructor stub
 
 	}
 
@@ -15,7 +11,5 @@ public class MissingParamException extends RuntimeException {
 		super(message);
 
 	}
-
-
 
 }

@@ -112,25 +112,7 @@ public class MedicalRecordsControllerTest {
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
-	@Test
-	public void updateMedicalRecord_Test2() throws Exception {
-
-		MedicalRecords updateMedicalRecord = new MedicalRecords();
-		updateMedicalRecord.setFirstName("Blandine");
-		updateMedicalRecord.setLastName("Falles");
-		updateMedicalRecord.setBirthdate("10/10/2010");
-
-		when(medicalRecordsServiceMock.getMedicalRecordsById(1L)).thenReturn(Optional.empty());
-		when(medicalRecordsServiceMock.saveMedicalRecords(updateMedicalRecord)).thenReturn(updateMedicalRecord);
-
-		ObjectMapper mapper = new ObjectMapper();
-		String writeValueAsString = mapper.writeValueAsString(updateMedicalRecord);
-
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/medicalrecords/1")
-				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
-
-		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
-	}
+	
 
 	@Test
 	public void deleteMedicalRecord_Test() throws Exception {

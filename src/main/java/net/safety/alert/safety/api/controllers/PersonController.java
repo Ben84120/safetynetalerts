@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.safety.alert.safety.api.model.ChildAlert;
+import net.safety.alert.safety.api.model.FirePersons;
 import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
-import net.safety.alert.safety.api.model.PersonWithMedicalRecords;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 import net.safety.alert.safety.api.service.PersonService;
 
@@ -121,8 +121,8 @@ public class PersonController {
 	}
 	
 	@GetMapping("/fire")
-	public List<Foster> getFireAddress(@RequestParam("address")String address){
-		List<Foster> fire = personService.getFireAddress(address);
+	public List<FirePersons> getFireAddress(@RequestParam("address")String address){
+		List<FirePersons> fire = personService.getFireAddress(address);
 		return fire;
 	}
 

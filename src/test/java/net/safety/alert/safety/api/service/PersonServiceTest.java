@@ -2,6 +2,7 @@ package net.safety.alert.safety.api.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import net.safety.alert.safety.api.model.MedicalRecords;
+import net.safety.alert.safety.api.model.ChildAlert;
+import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
 
@@ -73,23 +75,23 @@ public class PersonServiceTest {
 		// THEN
 		personService.savePerson(savePerson);
 	}
-	
+
 	@Test
 	public void getPersonsNumberByStation_Test() {
 		Person p = new Person();
-		p.setFirstName("James");
-		p.setLastName("Franco");
-		p.setAddress("908 73rd St");
+		p.setFirstName("Jonanathan");
+		p.setLastName("Marrack");
+		p.setAddress("29 15th St");
 		p.setCity("Culver");
 		p.setZip(Integer.parseInt("97451"));
-		p.setPhone("841-874-4691");
-		List<String> personPhoneByStation = personService.getPersonPhoneCoverByStation(1);
+		p.setPhone("841-874-6513");
+		List<String> personPhoneByStation = personService.getPersonPhoneCoverByStation(2);
 		assertThat(personPhoneByStation).isNotNull();
-		
-			}
-	
+
+	}
+
 	@Test
-	public void  getPersonEmailByCity_Test() {
+	public void getPersonEmailByCity_Test() {
 		Person p = new Person();
 		p.setFirstName("James");
 		p.setLastName("Franco");
@@ -98,29 +100,74 @@ public class PersonServiceTest {
 		p.setEmail("j.franco@yahoo.fr");
 		List<String> listPersons = personService.getPersonEmailByCity("Culver");
 		assertThat(listPersons).isNotNull();
-		
+
 	}
-	
+
 	@Test
 	public void getPersonByLastName_Test() {
 		// GIVEN
 		// WHEN
-		List<Person> personByLastName = personService.getPersonByLastName("Boyd");
+		Person p = new Person();
+		p.setFirstName("Jonanathan");
+		p.setLastName("Marrack");
+		p.setAddress("29 15th St");
+		p.setCity("Culver");
+		p.setZip(Integer.parseInt("97451"));
+		p.setPhone("841-874-6513");
+		List<Person> personByLastName = personService.getPersonByLastName("Marrack");
 		assertThat(personByLastName).isNotNull();
-		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Boyd");
+		assertThat(personByLastName.get(0).getLastName()).isEqualTo("Marrack");
 		// THEN
-		
+
 	}
-	
-	
+
 	@Test
 	public void getPersonsInfoWithMedicalRecord() {
-		List<PersonsInfoWithMedicalRecords> pInfos = personService.getPersonsInfoWithMedicalRecord("John", "Boyd");
+		PersonsInfoWithMedicalRecords pInfo = new PersonsInfoWithMedicalRecords();
+		pInfo.setNom("Boyd");
+		pInfo.setPrenom("Tenley");
+		pInfo.setAge(9);
+		pInfo.setAllergies("peanut");
+		pInfo.setEmail("tenz@email.com");
+		pInfo.setAdresse("1509 Culver St");
+		pInfo.setMedication("");
+		List<PersonsInfoWithMedicalRecords> pInfos = personService.getPersonsInfoWithMedicalRecord("Boyd");
 		assertThat(pInfos).isNotNull();
-		assertThat(pInfos.isEmpty()).isFalse();
-		
-		
-		
-	}  
+		assertThat(pInfo.getNom()).isEqualTo("Boyd");
+		assertThat(pInfo.getPrenom()).isEqualTo("Tenley");
+		assertThat(pInfo.getAge()).isEqualTo(9);
+		assertThat(pInfo.getEmail()).isEqualTo("tenz@email.com");
+		assertThat(pInfo.getAdresse()).isEqualTo("1509 Culver St");
+		assertThat(pInfo.getMedication()).isEqualTo("");
+		assertThat(pInfo.getAllergies()).isEqualTo("peanut");
+
+	}
+
+	@Test
+	public void getChildAlert() {
+		ChildAlert c = new ChildAlert();
+		c.setFirstName("Brandon");
+		c.setLastName("Brenda");
+		c.setBirthDate(9);
+		List<ChildAlert> membresFamille = personService.getChildAlert("Tatouine");
+		assertThat(membresFamille).isNotNull();
+		assertThat(c.getFirstName()).isEqualTo("Brandon");
+		assertThat(c.getLastName()).isEqualTo("Brenda");
+		assertThat(c.getBirthDate()).isEqualTo(9);
+
+	}
+@Test
+public void getFoster() {
+	Foster f = new Foster();
+	f.setAddress("112 Steppes Pl");
+	f.setPersonWithMedicalRecords(new ArrayList<>());
+	List<Foster> fosters = personService.findPersonAndMedicalRecordsByStation(3);
+	assertThat(fosters).isNotNull();
+	assertThat(fosters).hasSizeBetween(1, 10);
 	
 }
+
+
+}
+
+

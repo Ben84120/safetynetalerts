@@ -17,7 +17,6 @@ public interface FirestationsRepository extends CrudRepository<FireStations, Lon
 
 	List<FireStations> findByStation(int number);
 	
-	
-	
-	
-} 
+	List<FireStations> findByAddress(String address);
+
+}

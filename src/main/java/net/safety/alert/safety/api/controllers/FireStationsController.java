@@ -34,7 +34,6 @@ public class FireStationsController {
 		}
 	}
 
-	
 	@GetMapping("/firestations")
 	public Iterable<FireStations> getFirestations() {
 		return firestationsService.getFireStations();
@@ -67,6 +66,5 @@ public class FireStationsController {
 	public void deleteFireStations(@PathVariable("id") final Long id) {
 		firestationsService.deleteFireStationsById(id);
 	}
-	
 
 }

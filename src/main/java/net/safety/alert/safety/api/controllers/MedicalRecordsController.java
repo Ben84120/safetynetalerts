@@ -1,8 +1,10 @@
 package net.safety.alert.safety.api.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,12 +37,13 @@ public class MedicalRecordsController {
 	}
 
 	@GetMapping("/medicalrecords")
-	public Iterable<MedicalRecords> getMedicalRecords() {
-		return medicalrecordsService.getMedicalRecords();
+	public ResponseEntity<List<MedicalRecords>> getMedicalRecords() {
+		
+		return ResponseEntity.ok().body(medicalrecordsService.getMedicalRecords());
 	}
 
 	@PutMapping("/medicalrecords/{id}")
-	public MedicalRecords updateMedicalRecords(@PathVariable("id") final Long id,
+	public ResponseEntity<MedicalRecords> updateMedicalRecords(@PathVariable("id") final Long id,
 			@RequestBody MedicalRecords medicalrecords) {
 		Optional<MedicalRecords> m = medicalrecordsService.getMedicalRecordsById(id);
 		if (m.isPresent()) {
@@ -62,9 +65,9 @@ public class MedicalRecordsController {
 			}
 
 			medicalrecordsService.saveMedicalRecords(currentMedicalRecords);
-			return currentMedicalRecords;
+			return ResponseEntity.ok().body(currentMedicalRecords);
 		} else {
-			return null;
+			return ResponseEntity.notFound().build();
 		}
 	}
 

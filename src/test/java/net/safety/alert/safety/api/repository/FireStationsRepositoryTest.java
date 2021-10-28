@@ -85,11 +85,11 @@ public class FireStationsRepositoryTest {
 		assertThat(fireStations).isNotNull();
 	}
 
-	@Test 
+	@Test
 	public void getFireStationByNumber_Test() {
 		List<FireStations> f = fireStationsRepository.findByStation(1);
 		assertThat(f).isNotNull();
 		assertThat(f).hasSizeBetween(1, 15);
-		
+
 	}
 }

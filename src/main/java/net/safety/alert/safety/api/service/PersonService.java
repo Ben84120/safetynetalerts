@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.safety.alert.safety.api.model.ChildAlert;
+import net.safety.alert.safety.api.model.FirePersons;
 import net.safety.alert.safety.api.model.FireStations;
 import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.MedicalRecords;
@@ -24,6 +25,7 @@ import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.model.PersonWithMedicalRecords;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
+import net.safety.alert.safety.api.model.PersonsWithFireStationNumber;
 import net.safety.alert.safety.api.repository.FirestationsRepository;
 import net.safety.alert.safety.api.repository.MedicalrecordsRepository;
 import net.safety.alert.safety.api.repository.PersonRepository;
@@ -128,7 +130,7 @@ public class PersonService {
 					PersonsInfoWithMedicalRecords pInformation = new PersonsInfoWithMedicalRecords();
 
 					pInformation.setNom(m.getLastName());
-					// pInformation.setPrenom(m.getFirstName());
+					pInformation.setPrenom(m.getFirstName());
 					pInformation.setAdresse(person.getAddress());
 					pInformation.setEmail(person.getEmail());
 					pInformation.setMedication(m.getMedications());
@@ -181,15 +183,15 @@ public class PersonService {
 		return fosters;
 	}
 
-	public List<Foster> getFireAddress(String adress){
+	public List<FirePersons> getFireAddress(String adress){
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<FireStations> stations = firestationsRepository.findByAddress(adress);
 		List<Person> persons = personRepository.findAll();
 		List<MedicalRecords> medicalRecords = medicalrecordsRepository.findAll();
 		
-		List<Foster> fosters = new ArrayList<>();
+		List<FirePersons> pWithFire = new ArrayList<>();
 		stations.forEach(station -> {
-			List<PersonWithMedicalRecords> p = new ArrayList<>();
+			List<PersonsWithFireStationNumber> p = new ArrayList<>();
 			persons.forEach(person -> {
 				if (station.getAddress().equals(person.getAddress())) {
 					medicalRecords.forEach(medicalRecord -> {
@@ -198,26 +200,23 @@ public class PersonService {
 		
 							String myMedications[] = medicalRecord.getMedications().split(",");
 							String myAllergies[] = medicalRecord.getAllergies().split(",");
-							PersonWithMedicalRecords pWithMedicalRecords = new PersonWithMedicalRecords();
-							FireStations fireStations = new FireStations();
-							
-							fireStations.setStation(fireStations.getStation());
-							pWithMedicalRecords.setLastName(medicalRecord.getLastName());
-							pWithMedicalRecords.setFirstName(medicalRecord.getFirstName());
-							pWithMedicalRecords.setPhone(person.getPhone());
-							pWithMedicalRecords.setMedications(myMedications);
-							pWithMedicalRecords.setAllergies(myAllergies);
+							PersonsWithFireStationNumber pWithFireStationNumber = new PersonsWithFireStationNumber();
+							pWithFireStationNumber.setLastName(medicalRecord.getLastName());
+							pWithFireStationNumber.setFirstName(medicalRecord.getFirstName());
+							pWithFireStationNumber.setPhone(person.getPhone());
+							pWithFireStationNumber.setMedications(myMedications);
+							pWithFireStationNumber.setAllergies(myAllergies);
 							LocalDate dateNow = LocalDate.now();
 							LocalDate birthDate = LocalDate.parse(medicalRecord.getBirthdate(), dateTimeFormatter);
-							pWithMedicalRecords.setAge(Period.between(birthDate, dateNow).getYears());
-							p.add(pWithMedicalRecords);
+							pWithFireStationNumber.setAge(Period.between(birthDate, dateNow).getYears());
+							p.add(pWithFireStationNumber);
 						}
 					});
 				}
 			});
-			fosters.add(new Foster(station.getAddress(), p));
+			pWithFire.add(new FirePersons(station.getStation(), p));
 		});
-		return fosters;
+		return pWithFire;
 	}
 	
 	public List<ChildAlert> getChildAlert(String address) {
@@ -233,6 +232,7 @@ public class PersonService {
 				ChildAlert child = new ChildAlert();
 				child.setFirstName(person.getFirstName());
 				child.setLastName(person.getLastName());
+				child.setBirthDate(Period.between(birthDate, dateNow).getYears());
 				List<Person> membresfamille = persons.stream()
 						.filter(p -> p.getAddress().equals(person.getAddress())
 								&& p.getLastName().equals(person.getLastName())

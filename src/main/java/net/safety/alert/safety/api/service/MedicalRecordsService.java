@@ -25,7 +25,7 @@ public class MedicalRecordsService {
 		return medicalrecordsRepository.findById(id);
 	}
 
-	public Iterable<MedicalRecords> getMedicalRecords() {
+	public List<MedicalRecords> getMedicalRecords() {
 		return medicalrecordsRepository.findAll();
 	}
 
@@ -37,10 +37,10 @@ public class MedicalRecordsService {
 		MedicalRecords savedMedicalrecords = medicalrecordsRepository.save(medicalrecords);
 		return savedMedicalrecords;
 	}
-	
+
 	public List<MedicalRecords> getPersonByLastName(String lastName) {
 		return medicalrecordsRepository.getMedicalRecordsByLastName(lastName);
-		
+
 	}
 
 }

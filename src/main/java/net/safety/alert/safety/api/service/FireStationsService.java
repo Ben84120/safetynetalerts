@@ -38,10 +38,7 @@ public class FireStationsService {
 
 	public void deleteFireStationsById(final Long id) {
 		firestationsRepository.deleteById(id);
-		
+
 	}
 
-	
-	}
-	
-
+}

@@ -68,7 +68,7 @@ public class MedicalRecordsServiceTest {
 		// THEN
 		assertThat(medicalRecordsDeleteById.isPresent()).isFalse();
 	}
-	
+
 	@Test
 	public void getMedicalRecordByLastName_Test() {
 		// GIVEN
@@ -77,6 +77,6 @@ public class MedicalRecordsServiceTest {
 		assertThat(medicalRecordLastName).isNotNull();
 		assertThat(medicalRecordLastName.get(0).getLastName()).isEqualTo("Boyd");
 		// THEN
-		
+
 	}
 }

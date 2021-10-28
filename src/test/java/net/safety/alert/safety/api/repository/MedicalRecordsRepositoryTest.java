@@ -102,7 +102,7 @@ public class MedicalRecordsRepositoryTest {
 		// THEN
 		assertThat(medicalRecords).isNotNull();
 	}
-	
+
 	@Test
 	public void getMedicalRecordsByFirstAndLastName_Test() {
 		// GIVEN
@@ -112,5 +112,5 @@ public class MedicalRecordsRepositoryTest {
 		assertThat(medicalRecords).isNotNull();
 		assertThat(medicalRecords.getFirstName()).isEqualTo("John");
 		assertThat(medicalRecords.getLastName()).isEqualTo("Boyd");
-}
+	}
 }

@@ -1,7 +1,6 @@
 package net.safety.alert.safety.api.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +11,20 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChildAlert implements Serializable {
+public class PersonWithMedicalRecords implements Serializable {
 
-	private static final long serialVersionUID = 64L;
+	private static final long serialVersionUID = 1L;
+
+	private String firstName;
 
 	private String lastName;
-	private String firstName;
-	private Integer birthDate;
-	private List<Person> membreFamille;
+
+	private int age;
+
+	private String phone;
+
+	private String[] medications;
+
+	private String[] allergies;
 
 }
