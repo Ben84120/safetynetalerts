@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,27 +28,27 @@ public class PersonController {
 	private PersonService personService;
 
 	@PostMapping("/person")
-	public Person createPerson(@RequestBody Person person) {
-		return personService.savePerson(person);
+	public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+		return ResponseEntity.ok().body(personService.savePerson(person));
 	}
 
 	@GetMapping("/person/{id}")
-	public Person getPersonById(@PathVariable("id") final Long id) {
+	public ResponseEntity<Person> getPersonById(@PathVariable("id") final Long id) {
 		Optional<Person> person = personService.getPersonById(id);
 		if (person.isPresent()) {
-			return person.get();
+			return ResponseEntity.ok().body(person.get());
 		} else {
-			return null;
+			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@GetMapping("/person")
-	public Iterable<Person> getPerson() {
-		return personService.getPerson();
+	public ResponseEntity<Iterable<Person>>  getPerson() {
+		return ResponseEntity.ok().body(personService.getPerson());
 	}
 
 	@PutMapping("/person/{id}")
-	public Person updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
+	public ResponseEntity<Person> updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
 		Optional<Person> p = personService.getPersonById(id);
 		if (p.isPresent()) {
 			Person currentPerson = p.get();
@@ -78,39 +79,40 @@ public class PersonController {
 			}
 
 			personService.savePerson(currentPerson);
-			return currentPerson;
+			return ResponseEntity.ok().body(currentPerson);
 		} else {
-			return null;
+			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@DeleteMapping("/person/{id}")
-	public void deletePerson(@PathVariable("id") final Long id) {
+	public ResponseEntity<?> deletePerson(@PathVariable("id") final Long id) {
 		personService.deletePerson(id);
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/firestation")
-	public PersonStationCover getPersonStationCover(@RequestParam("stationNumber") final Integer stationNumber) {
+	public ResponseEntity<PersonStationCover> getPersonStationCover(@RequestParam("stationNumber") final Integer stationNumber) {
 
-		return personService.getPersonStationCover(stationNumber);
+		return ResponseEntity.ok().body(personService.getPersonStationCover(stationNumber));
 
 	}
 
 	@GetMapping("/communityEmail")
-	public List<String> getPersonEmailByCity(@RequestParam("city") final String city) {
-		return personService.getPersonEmailByCity(city);
+	public ResponseEntity<List<String>> getPersonEmailByCity(@RequestParam("city") final String city) {
+		return ResponseEntity.ok().body(personService.getPersonEmailByCity(city));
 	}
 
 	@GetMapping("/phoneAlert")
-	public List<String> getPersonPhoneCoverByStation(@RequestParam("firestation") final Integer stationNumber) {
-		return personService.getPersonPhoneCoverByStation(stationNumber);
+	public ResponseEntity<List<String>> getPersonPhoneCoverByStation(@RequestParam("firestation") final Integer stationNumber) {
+		return ResponseEntity.ok().body(personService.getPersonPhoneCoverByStation(stationNumber));
 	}
 
 	@GetMapping("/personInfo")
-	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(
+	public ResponseEntity<List<PersonsInfoWithMedicalRecords>> getPersonsInfoWithMedicalRecord(
 			@RequestParam("lastName") final String lastName) {
 
-		return personService.getPersonsInfoWithMedicalRecord(lastName);
+		return ResponseEntity.ok().body(personService.getPersonsInfoWithMedicalRecord(lastName));
 
 	}
 
@@ -119,17 +121,17 @@ public class PersonController {
 		List<Foster> fosters = personService.findPersonAndMedicalRecordsByStation(stationNumber);
 		return fosters;
 	}
-	
+
 	@GetMapping("/fire")
-	public List<FirePersons> getFireAddress(@RequestParam("address")String address){
+	public ResponseEntity<List<FirePersons>> getFireAddress(@RequestParam("address") String address) {
 		List<FirePersons> fire = personService.getFireAddress(address);
-		return fire;
+		return ResponseEntity.ok().body(fire);
 	}
 
 	@GetMapping("/childAlert")
-	public List<ChildAlert> getChildAlert(@RequestParam("address") final String address) {
+	public ResponseEntity<List<ChildAlert>> getChildAlert(@RequestParam("address") final String address) {
 
-		return personService.getChildAlert(address);
+		return ResponseEntity.ok().body(personService.getChildAlert(address));
 
 	}
 

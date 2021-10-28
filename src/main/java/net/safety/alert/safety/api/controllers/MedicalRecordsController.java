@@ -22,17 +22,17 @@ public class MedicalRecordsController {
 	private MedicalRecordsService medicalrecordsService;
 
 	@PostMapping("/medicalrecords")
-	public MedicalRecords createMedicalRecords(@RequestBody MedicalRecords medicalRecords) {
-		return medicalrecordsService.saveMedicalRecords(medicalRecords);
+	public ResponseEntity<MedicalRecords> createMedicalRecords(@RequestBody MedicalRecords medicalRecords) {
+		return ResponseEntity.ok().body(medicalrecordsService.saveMedicalRecords(medicalRecords));
 	}
 
 	@GetMapping("/medicalrecords/{id}")
-	public MedicalRecords getMedicalRecordsById(@PathVariable("id") final Long id) {
+	public ResponseEntity<MedicalRecords> getMedicalRecordsById(@PathVariable("id") final Long id) {
 		Optional<MedicalRecords> medicalrecords = medicalrecordsService.getMedicalRecordsById(id);
 		if (medicalrecords.isPresent()) {
-			return medicalrecords.get();
+			return ResponseEntity.ok().body(medicalrecords.get());
 		} else {
-			return null;
+			return ResponseEntity.notFound().build();
 		}
 	}
 
@@ -72,7 +72,8 @@ public class MedicalRecordsController {
 	}
 
 	@DeleteMapping("/medicalrecords/{id}")
-	public void deleteMedicalRecords(@PathVariable("id") final Long id) {
+	public ResponseEntity<?> deleteMedicalRecords(@PathVariable("id") final Long id) {
 		medicalrecordsService.deleteMedicalRecords(id);
+		return ResponseEntity.ok().build();
 	}
 }

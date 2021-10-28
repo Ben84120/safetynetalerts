@@ -3,6 +3,7 @@ package net.safety.alert.safety.api.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,27 +21,27 @@ public class FireStationsController {
 	private FireStationsService firestationsService;
 
 	@PostMapping("/firestations")
-	public FireStations createFirestations(@RequestBody FireStations firestations) {
-		return firestationsService.saveFireStations(firestations);
+	public ResponseEntity<FireStations> createFirestations(@RequestBody FireStations firestations) {
+		return ResponseEntity.ok().body(firestationsService.saveFireStations(firestations));
 	}
 
 	@GetMapping("/firestations/{id}")
-	public FireStations getFirestationsById(@PathVariable("id") final Long id) {
+	public ResponseEntity<FireStations> getFirestationsById(@PathVariable("id") final Long id) {
 		Optional<FireStations> firestations = firestationsService.getFireStationsById(id);
 		if (firestations.isPresent()) {
-			return firestations.get();
+			return ResponseEntity.ok().body(firestations.get());
 		} else {
-			return null;
+			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@GetMapping("/firestations")
-	public Iterable<FireStations> getFirestations() {
-		return firestationsService.getFireStations();
+	public ResponseEntity< Iterable<FireStations>> getFirestations() {
+		return ResponseEntity.ok().body(firestationsService.getFireStations());
 	}
 
 	@PutMapping("/firestations/{id}")
-	public FireStations updateFireStations(@PathVariable("id") final Long id, @RequestBody FireStations firestations) {
+	public ResponseEntity<FireStations> updateFireStations(@PathVariable("id") final Long id, @RequestBody FireStations firestations) {
 		Optional<FireStations> f = firestationsService.getFireStationsById(id);
 		if (f.isPresent()) {
 			FireStations currentFireStations = f.get();
@@ -56,15 +57,16 @@ public class FireStationsController {
 			}
 
 			firestationsService.saveFireStations(currentFireStations);
-			return currentFireStations;
+			return ResponseEntity.ok().body(currentFireStations);
 		} else {
-			return null;
+			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@DeleteMapping("/firestations/{id}")
-	public void deleteFireStations(@PathVariable("id") final Long id) {
+	public ResponseEntity<?> deleteFireStations(@PathVariable("id") final Long id) {
 		firestationsService.deleteFireStationsById(id);
+		return ResponseEntity.ok().build();
 	}
 
 }

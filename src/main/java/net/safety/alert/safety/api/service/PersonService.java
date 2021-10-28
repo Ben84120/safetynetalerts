@@ -45,6 +45,11 @@ public class PersonService {
 	@Autowired
 	private FirestationsRepository firestationsRepository;
 
+	/**
+	 * @param Identifiant d'une personne.
+	 *
+	 * @return La liste des personnes par leurs identifiants.
+	 */
 	public Optional<Person> getPersonById(final Long id) {
 		return personRepository.findById(id);
 	}
@@ -57,16 +62,33 @@ public class PersonService {
 		personRepository.deleteById(id);
 	}
 
+	/**
+	 * @param La personne qui va être sauvegardée.
+	 *
+	 * @return La personne sauvegardée.
+	 */
 	public Person savePerson(Person person) {
 		Person savedPerson = personRepository.save(person);
 		return savedPerson;
 	}
 
+	/**
+	 * @param Nom de famille de la classe Person
+	 *
+	 * @return La personne à partir de son nom de famille
+	 */
 	public List<Person> getPersonByLastName(String lastName) {
 		return personRepository.getPersonByLastName(lastName);
 
 	}
 
+	/**
+	 * @param numéro de la station demandée.
+	 *
+	 * @throws MissingParamException si jamais le paramètre n'existe pas.
+	 *
+	 * @return La liste des personnes couvertes par le numéro de station choisi.
+	 */
 	public PersonStationCover getPersonStationCover(final Integer stationNumber) {
 		log.info("Service Firestation : station: " + stationNumber + " getting persons covered.");
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -97,6 +119,11 @@ public class PersonService {
 		return personStationCover;
 	}
 
+	/**
+	 * @param ville des personne recherchées.
+	 *
+	 * @return La liste des adresse e-mails des personnes d'une ville choisie.
+	 */
 	public List<String> getPersonEmailByCity(final String city) {
 		List<Person> persons = personRepository.findByCity(city);
 		List<String> emails = new ArrayList<>();
@@ -107,12 +134,24 @@ public class PersonService {
 		return emails;
 	}
 
+	/**
+	 * @param numéro de la station demandée.
+	 *
+	 * @return Les numéros de téléphones des personnes couvertes par la station choisie.
+	 */
 	public List<String> getPersonPhoneCoverByStation(final Integer stationNumber) {
 		List<String> phones = personRepository.getPhoneByStation(stationNumber);
 
 		return phones;
 	}
 
+	/**
+	 * @param Noms de famille de la classe Person
+	 *
+	 * @throws MissingParamException si jamais le paramètre n'existe pas.
+	 *
+	 * @return La liste des PersonsInfoWithMedicalRecords par le nom de famille ainsi que leurs homonymes.
+	 */
 	public List<PersonsInfoWithMedicalRecords> getPersonsInfoWithMedicalRecord(String lastName) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<PersonsInfoWithMedicalRecords> resultat = new ArrayList<>();
@@ -183,12 +222,12 @@ public class PersonService {
 		return fosters;
 	}
 
-	public List<FirePersons> getFireAddress(String adress){
+	public List<FirePersons> getFireAddress(String adress) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<FireStations> stations = firestationsRepository.findByAddress(adress);
 		List<Person> persons = personRepository.findAll();
 		List<MedicalRecords> medicalRecords = medicalrecordsRepository.findAll();
-		
+
 		List<FirePersons> pWithFire = new ArrayList<>();
 		stations.forEach(station -> {
 			List<PersonsWithFireStationNumber> p = new ArrayList<>();
@@ -197,7 +236,7 @@ public class PersonService {
 					medicalRecords.forEach(medicalRecord -> {
 						if (medicalRecord.getFirstName().equals(person.getFirstName())
 								&& medicalRecord.getLastName().equals(person.getLastName())) {
-		
+
 							String myMedications[] = medicalRecord.getMedications().split(",");
 							String myAllergies[] = medicalRecord.getAllergies().split(",");
 							PersonsWithFireStationNumber pWithFireStationNumber = new PersonsWithFireStationNumber();
@@ -218,7 +257,7 @@ public class PersonService {
 		});
 		return pWithFire;
 	}
-	
+
 	public List<ChildAlert> getChildAlert(String address) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<ChildAlert> resultat = new ArrayList<>();
