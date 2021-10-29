@@ -112,6 +112,7 @@ public class PersonRepositoryTest {
 		f.setStation(91);
 		List<PersonInformations> personInformations = personRepository.getPersonInformations(91);
 		assertThat(personInformations).isNotNull();
+		assertThat(f.getStation()).isEqualTo(91);
 
 	}
 
@@ -146,9 +147,21 @@ public class PersonRepositoryTest {
 		Person p = new Person();
 		p.setFirstName("Carl");
 		p.setLastName("Hunter");
+		p.setAddress("Rue du parc");
+		p.setCity("Paris");
+		p.setZip(Integer.parseInt("75010"));
+		p.setPhone("843-582-6593");
 		List<Person> listPersons = personRepository.findByLastName("Hunter");
 		listPersons.add(p);
 		assertThat(listPersons).isNotNull();
 		assertThat(listPersons.get(0)).isEqualTo(p);
+		assertThat(p.getFirstName()).isEqualTo("Carl");
+		assertThat(p.getLastName()).isEqualTo("Hunter");
+		assertThat(p.getAddress()).isEqualTo("Rue du parc");
+		assertThat(p.getCity()).isEqualTo("Paris");
+		assertThat(p.getZip()).isEqualTo(Integer.parseInt("75010"));
+		assertThat(p.getPhone()).isEqualTo("843-582-6593");
 	}
+	
+	
 }

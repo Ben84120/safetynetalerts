@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.safety.alert.safety.api.model.ChildAlert;
+import net.safety.alert.safety.api.model.FirePersons;
 import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.Person;
+import net.safety.alert.safety.api.model.PersonInformations;
+import net.safety.alert.safety.api.model.PersonWithMedicalRecords;
 import net.safety.alert.safety.api.model.PersonsInfoWithMedicalRecords;
+import net.safety.alert.safety.api.model.PersonsWithFireStationNumber;
 
 @SpringBootTest
 public class PersonServiceTest {
@@ -47,6 +51,7 @@ public class PersonServiceTest {
 		// THEN
 		assertThat(persons).isNotNull();
 		assertThat(persons).hasSizeBetween(20, 30);
+		
 
 	}
 
@@ -74,6 +79,7 @@ public class PersonServiceTest {
 		savePerson.setEmail("f.messin@outlook.fr");
 		// THEN
 		personService.savePerson(savePerson);
+		
 	}
 
 	@Test
@@ -87,7 +93,12 @@ public class PersonServiceTest {
 		p.setPhone("841-874-6513");
 		List<String> personPhoneByStation = personService.getPersonPhoneCoverByStation(2);
 		assertThat(personPhoneByStation).isNotNull();
-
+		assertThat(p.getFirstName()).isEqualTo("Jonanathan");
+		assertThat(p.getLastName()).isEqualTo("Marrack");
+		assertThat(p.getAddress()).isEqualTo("29 15th St");
+		assertThat(p.getCity()).isEqualTo("Culver");
+		assertThat(p.getPhone()).isEqualTo("841-874-6513");
+		
 	}
 
 	@Test
@@ -165,6 +176,64 @@ public void getFoster() {
 	assertThat(fosters).isNotNull();
 	assertThat(fosters).hasSizeBetween(1, 10);
 	
+}
+
+@Test
+public void getPersonWithMedicalRecords() {
+	PersonWithMedicalRecords pMd = new  PersonWithMedicalRecords();
+	pMd.setFirstName("Peter");
+	pMd.setLastName("Duncan");
+	pMd.setAge(21);
+	pMd.setPhone("841-874-6512");
+	String[] allergies = {"shellfish"};
+	String[] medications = {};
+	assertThat(pMd.getFirstName()).isEqualTo("Peter");
+	assertThat(pMd.getLastName()).isEqualTo("Duncan");
+	assertThat(pMd.getAge()).isEqualTo(21);
+	assertThat(pMd.getPhone()).isEqualTo("841-874-6512");
+	assertThat(allergies).contains("shellfish");
+	assertThat(medications).isEmpty();
+	
+}
+
+@Test
+public void getFireAddress() {
+	FirePersons fP = new FirePersons();
+	fP.setStation(3);
+	fP.setPersons(new ArrayList<>());
+	List<FirePersons> firePersons = personService.getFireAddress("1509 Culver St");
+	assertThat(firePersons).isNotNull();
+	assertThat(firePersons).hasSizeBetween(1, 15);
+	assertThat(fP.getStation()).isEqualTo(3);
+	assertThat(firePersons.get(0).getPersons()).isNotNull();
+	
+}
+
+@Test
+public void getPersonsWithFireStationNumber() {
+	PersonsWithFireStationNumber pWFN = new PersonsWithFireStationNumber();
+	pWFN.setFirstName("Tenley");
+	pWFN.setLastName("Boyd");
+	pWFN.setAge(9);
+	pWFN.setPhone("841-874-6512");
+	assertThat(pWFN).isNotNull();
+	assertThat(pWFN.getFirstName()).isEqualTo("Tenley");
+	assertThat(pWFN.getLastName()).isEqualTo("Boyd");
+	assertThat(pWFN.getAge()).isEqualTo(9);
+	assertThat(pWFN.getPhone()).isEqualTo("841-874-6512");
+}
+
+@Test
+public void getPersonInformations() {
+	PersonInformations pInfos = new PersonInformations();
+	pInfos.setNom("Zemicks");
+	pInfos.setPrenom("Zach");
+	pInfos.setAdresse("892 Downing Ct");
+	pInfos.setNumeroTel("841-874-7512");
+	assertThat(pInfos.getNom()).isEqualTo("Zemicks");
+	assertThat(pInfos.getPrenom()).isEqualTo("Zach");
+	assertThat(pInfos.getAdresse()).isEqualTo("892 Downing Ct");
+	assertThat(pInfos.getNumeroTel()).isEqualTo("841-874-7512");
 }
 
 

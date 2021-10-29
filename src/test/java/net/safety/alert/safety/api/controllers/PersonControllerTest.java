@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.safety.alert.safety.api.model.ChildAlert;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.service.PersonService;
@@ -46,6 +45,7 @@ public class PersonControllerTest {
 		person.setZip(75016);
 		List<Person> personList = new ArrayList<>();
 		personList.add(person);
+		
 
 		when(personServiceMock.getPerson()).thenReturn(personList);
 
@@ -127,7 +127,7 @@ public class PersonControllerTest {
 		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/person/1")
 				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
-		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 
 	@Test

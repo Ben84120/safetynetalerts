@@ -135,7 +135,7 @@ public class FireStationsControllerTest {
 		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.put("/firestations/1")
 				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
-		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 
 	@Test
