@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.safety.alert.safety.api.model.ChildAlert;
+import net.safety.alert.safety.api.model.FirePersons;
+import net.safety.alert.safety.api.model.Foster;
 import net.safety.alert.safety.api.model.Person;
 import net.safety.alert.safety.api.model.PersonStationCover;
 import net.safety.alert.safety.api.service.PersonService;
@@ -45,7 +48,6 @@ public class PersonControllerTest {
 		person.setZip(75016);
 		List<Person> personList = new ArrayList<>();
 		personList.add(person);
-		
 
 		when(personServiceMock.getPerson()).thenReturn(personList);
 
@@ -152,6 +154,27 @@ public class PersonControllerTest {
 	}
 
 	@Test
+	public void getPersonById_Test2() throws Exception {
+
+		Person person = new Person();
+		person.setAddress("Boulevard du bout du monde");
+		person.setFirstName("Benjamin");
+		person.setLastName("Fabre");
+		person.setAddress("Rue des primeurs");
+		person.setCity("Vitrolles");
+		person.setZip(13700);
+		person.setPhone("874-895-3125");
+		person.setEmail("b.fabre@outlook.fr");
+
+		when(personServiceMock.getPersonById(43L)).thenReturn(Optional.of(person));
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/person/44")
+				.contentType(MediaType.APPLICATION_JSON);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
+
+	@Test
 	public void deletePerson_Test() throws Exception {
 		Person deletePerson = new Person();
 		deletePerson.setId(27L);
@@ -179,7 +202,7 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	public void getPersonStationCover() throws Exception {
+	public void getPersonStationCover_Test() throws Exception {
 		PersonStationCover personCover = new PersonStationCover();
 
 		personCover.setNombreAdultes(15);
@@ -196,26 +219,85 @@ public class PersonControllerTest {
 
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
 	}
-	
-	/*@Test
-	public void getChildAlert() throws Exception {
-		ChildAlert cA = new ChildAlert();
-		cA.setFirstName("Zach");
-		cA.setLastName("Zemicks");
-		cA.setBirthDate(4);
-		List<ChildAlert> lCA = new ArrayList<>();
-		lCA.add(cA);
-		
-		when(personServiceMock.getChildAlert("892 Downing Ct")).thenReturn(lCA);
-		
+
+	@Test
+	public void getChildAlert_Test() throws Exception {
+
+		List<ChildAlert> lCA = personServiceMock.getChildAlert("1509 Culver St");
+
+		when(personServiceMock.getChildAlert("1509 Culver St")).thenReturn(lCA);
+
 		ObjectMapper mapper = new ObjectMapper();
 		String writeValueAsString = mapper.writeValueAsString(lCA);
 
-		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/ChildAlert")
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/childAlert?address=1509 Culver St")
 				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
 
 		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
-	}*/
+	}
+
+	@Test
+	public void getPersonPhoneCoverByStation_Test() throws Exception {
+
+		List<String> personPhones = personServiceMock.getPersonPhoneCoverByStation(1);
+
+		when(personServiceMock.getPersonPhoneCoverByStation(1)).thenReturn(personPhones);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String writeValueAsString = mapper.writeValueAsString(personPhones);
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/phoneAlert?firestation=1")
+				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void getPersonEmailByCity_Test() throws Exception {
+
+		List<String> email = personServiceMock.getPersonEmailByCity("Culver");
+
+		when(personServiceMock.getPersonEmailByCity("Culver")).thenReturn(email);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String writeValueAsString = mapper.writeValueAsString(email);
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/communityEmail?city=Culver")
+				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void getPersonInfoByStation_Test() throws Exception {
+
+		List<Foster> fosters = personServiceMock.findPersonAndMedicalRecordsByStation(1);
+
+		when(personServiceMock.findPersonAndMedicalRecordsByStation(1)).thenReturn(fosters);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String writeValueAsString = mapper.writeValueAsString(fosters);
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/flood/station?station=1")
+				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void getFireAddress_Test() throws Exception {
+
+		List<FirePersons> firePerson = personServiceMock.getFireAddress("1509 Culver St");
+
+		when(personServiceMock.getFireAddress("1509 Culver St")).thenReturn(firePerson);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String writeValueAsString = mapper.writeValueAsString(firePerson);
+
+		MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/fire?address=1509 Culver St")
+				.contentType(MediaType.APPLICATION_JSON).content(writeValueAsString);
+
+		mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
 }
-
-

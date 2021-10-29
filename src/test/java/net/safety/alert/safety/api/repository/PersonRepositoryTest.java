@@ -27,6 +27,9 @@ public class PersonRepositoryTest {
 		// THEN
 		assertThat(persons).isNotNull();
 		assertThat(persons).hasSizeBetween(1, 25);
+		List<Person> person = personRepository.getPersonByLastName("Boyd");
+		assertThat(person).isNotNull();
+		assertThat(person.get(0).getLastName()).isEqualTo("Boyd");
 
 	}
 
@@ -70,6 +73,7 @@ public class PersonRepositoryTest {
 		assertThat(persons.isPresent()).isFalse();
 
 	}
+	
 
 	@Test
 	public void savePerson_Test() {
