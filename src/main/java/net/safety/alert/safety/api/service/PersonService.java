@@ -61,6 +61,49 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 	
+	public Optional<Person> updatePerson(final Long id, Person person) {
+		Optional<Person> p = personRepository.findById(id);
+		if (p.isPresent()) {
+			Person currentPerson = p.get();
+
+			Long iD = person.getId();
+			if (iD != null) {
+				currentPerson.setId(iD);
+			}
+			
+			
+			String email = person.getEmail();
+			if (email != null) {
+				currentPerson.setEmail(email);
+			}
+
+			Integer zip = person.getZip();
+			if (zip != null) {
+				currentPerson.setZip(zip);
+			}
+
+			String city = person.getCity();
+			if (city != null) {
+				currentPerson.setCity(city);
+			}
+
+			String address = person.getAddress();
+			if (address != null) {
+				currentPerson.setAddress(address);
+			}
+
+			String phone = person.getPhone();
+			if (phone != null) {
+				currentPerson.setPhone(phone);
+			}
+
+			personRepository.save(currentPerson);
+			return p;
+		} else {
+			return null;
+		}
+	}
+	
 	/**
 	 * @param Identifiant d'une personne.
 	 *

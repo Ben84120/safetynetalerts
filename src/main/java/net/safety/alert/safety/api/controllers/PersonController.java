@@ -49,40 +49,13 @@ public class PersonController {
 
 	@PutMapping("/person/{id}")
 	public ResponseEntity<Person> updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
-		Optional<Person> p = personService.getPersonById(id);
+		Optional<Person> p = personService.updatePerson(id, person);
 		if (p.isPresent()) {
-			Person currentPerson = p.get();
-
-			String email = person.getEmail();
-			if (email != null) {
-				currentPerson.setEmail(email);
+			return ResponseEntity.ok().body(person);
+			} else {
+				return ResponseEntity.notFound().build();
 			}
-
-			Integer zip = person.getZip();
-			if (zip != null) {
-				currentPerson.setZip(zip);
-			}
-
-			String city = person.getCity();
-			if (city != null) {
-				currentPerson.setCity(city);
-			}
-
-			String address = person.getAddress();
-			if (address != null) {
-				currentPerson.setAddress(address);
-			}
-
-			String phone = person.getPhone();
-			if (phone != null) {
-				currentPerson.setPhone(phone);
-			}
-
-			personService.savePerson(currentPerson);
-			return ResponseEntity.ok().body(currentPerson);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+			
 	}
 
 	@DeleteMapping("/person/{id}")
