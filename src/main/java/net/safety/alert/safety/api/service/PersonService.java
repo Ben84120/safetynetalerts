@@ -61,16 +61,22 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 	
-	public Optional<Person> updatePerson(final Long id, Person person) {
+	public Person updatePerson(final Long id, Person person) {
 		Optional<Person> p = personRepository.findById(id);
 		if (p.isPresent()) {
 			Person currentPerson = p.get();
 
-			Long iD = person.getId();
-			if (iD != null) {
-				currentPerson.setId(iD);
+			
+			
+			String lastName = person.getLastName();
+			if (lastName != null) {
+				currentPerson.setEmail(lastName);
 			}
 			
+			String firstName = person.getFirstName();
+			if (firstName != null) {
+				currentPerson.setEmail(firstName);
+			}
 			
 			String email = person.getEmail();
 			if (email != null) {
@@ -96,9 +102,14 @@ public class PersonService {
 			if (phone != null) {
 				currentPerson.setPhone(phone);
 			}
+			
+			Long iD = person.getId(); 
+			if (iD != null) {
+				currentPerson.setId(iD);
+			}
 
-			personRepository.save(currentPerson);
-			return p;
+			
+			return personRepository.save(currentPerson);
 		} else {
 			return null;
 		}
