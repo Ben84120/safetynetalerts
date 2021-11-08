@@ -13,7 +13,7 @@ import net.safety.alert.safety.api.model.PersonInformations;;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-	//@Query(value = "SELECT * FROM PERSON P WHERE LAST_NAME = :lastName", nativeQuery = true)
+	
 	List<Person> getPersonByLastName(@Param("lastName") String lastName);
 
 	@Query(value = "SELECT P.LAST_NAME nom, P.FIRST_NAME prenom, P.ADDRESS adresse, P.PHONE numeroTel FROM FIRESTATIONS FS, PERSON P WHERE  FS.ADDRESS=P.ADDRESS AND FS.STATION= :stationNumber", nativeQuery = true)

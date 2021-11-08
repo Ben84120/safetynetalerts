@@ -31,7 +31,7 @@ public class JsonTools {
 		JSONParser parser = new JSONParser();
 		try {
 			Object obj = parser
-					.parse(new FileReader("C:\\Users\\bvach\\git\\safetynetalerts\\src\\main\\resources\\data.json"));
+					.parse(new FileReader("src/main/resources/data.json"));
 
 			// A JSON object. Key value pairs are unordered. JSONObject supports
 			// java.util.Map interface.
@@ -74,7 +74,7 @@ public class JsonTools {
 		JSONParser parser = new JSONParser();
 		try {
 			Object obj = parser
-					.parse(new FileReader("C:\\Users\\bvach\\git\\safetynetalerts\\src\\main\\resources\\data.json"));
+					.parse(new FileReader("src/main/resources/data.json"));
 
 			// A JSON object. Key value pairs are unordered. JSONObject supports
 			// java.util.Map interface.
@@ -113,7 +113,7 @@ public class JsonTools {
 		JSONParser parser = new JSONParser();
 		try {
 			Object obj = parser
-					.parse(new FileReader("C:\\Users\\bvach\\git\\safetynetalerts\\src\\main\\resources\\data.json"));
+					.parse(new FileReader("src/main/resources/data.json"));
 
 			// A JSON object. Key value pairs are unordered. JSONObject supports
 			// java.util.Map interface.

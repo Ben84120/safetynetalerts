@@ -51,7 +51,7 @@ public class PersonController {
 	public ResponseEntity<Person> updatePerson(@PathVariable("id") final Long id, @RequestBody Person person) {
 		Person p = personService.updatePerson(id, person);
 		if (p != null) {
-			return ResponseEntity.ok().body(person);
+			return ResponseEntity.ok().body(p);
 			} else {
 				return ResponseEntity.notFound().build();
 			}

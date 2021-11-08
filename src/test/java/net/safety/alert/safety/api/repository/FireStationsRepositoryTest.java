@@ -51,7 +51,7 @@ public class FireStationsRepositoryTest {
 	}
 
 	@Test
-	public void deletePersonByIdTest() {
+	public void deleteFireStationByIdTest() {
 		// GIVEN
 		// WHEN
 		fireStationsRepository.deleteById(4L);

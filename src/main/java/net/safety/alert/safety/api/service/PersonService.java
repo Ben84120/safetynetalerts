@@ -61,6 +61,12 @@ public class PersonService {
 		return personRepository.findAll();
 	}
 	
+	/**
+	 * @param Identifiant d'une personne et l'objet person.
+	 *
+	 * @return La mise à jour d'une personne ou null.
+	 */
+	
 	public Person updatePerson(final Long id, Person person) {
 		Optional<Person> p = personRepository.findById(id);
 		if (p.isPresent()) {
@@ -70,12 +76,12 @@ public class PersonService {
 			
 			String lastName = person.getLastName();
 			if (lastName != null) {
-				currentPerson.setEmail(lastName);
+				currentPerson.setLastName(lastName);
 			}
 			
 			String firstName = person.getFirstName();
 			if (firstName != null) {
-				currentPerson.setEmail(firstName);
+				currentPerson.setFirstName(firstName);
 			}
 			
 			String email = person.getEmail();
